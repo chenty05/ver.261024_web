@@ -1,6 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<meta charset="utf-8">
-<title>Recake</title>
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><title>櫥窗裡的你</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -68,7 +66,10 @@ button:focus-visible{outline:4px solid var(--navy);outline-offset:4px;border-rad
 .item.on img{filter:drop-shadow(0 0 10px rgba(30,70,150,.35))}
 .item.on::after{content:"";position:absolute;left:50%;bottom:-2px;width:14px;height:14px;margin-left:-7px;border-radius:50%;background:var(--navy)}
 .sep{flex:none;width:4px;height:95px;margin:0 47px;border-radius:2px;background:var(--sep)}
-#sbar{pointer-events:none;position:absolute;left:477px;top:1617px;width:1644px;height:8px;border-radius:4px;background:#e4e4e4}
+#sbar{display:none!important;pointer-events:none;position:absolute;left:477px;top:1617px;width:1644px;height:8px;border-radius:4px;background:#e4e4e4}
+#pdots{position:absolute;top:1630px;transform:translateX(-50%);display:flex;gap:14px;pointer-events:none}
+#pdots i{width:15px;height:15px;border-radius:50%;border:2.5px solid #d3d5dc;box-sizing:border-box}
+#pdots i.f{background:#d3d5dc}
 #sthumb{position:absolute;top:0;height:8px;border-radius:4px;background:#c9caca}
 
 /* marquee */
@@ -135,6 +136,35 @@ button:focus-visible{outline:4px solid var(--navy);outline-offset:4px;border-rad
 #rv{z-index:40}
 #rv[hidden]{display:none}
 .rvs{opacity:0;pointer-events:none;transition:opacity .6s}
+#rv1 > img{transition:opacity 1.4s ease}
+#board{transition:opacity .35s}
+#board.dim{opacity:0}
+#replay{position:absolute;left:640px;top:618px;width:1080px;height:570px;border-radius:26px;overflow:hidden;opacity:0;transform:scale(.97);pointer-events:none;
+  transition:opacity .35s,transform .35s;box-shadow:0 10px 30px rgba(90,80,40,.18),0 0 0 6px #fffef7;background:#f4f1fb}
+#replay.on{opacity:1;transform:none}
+#replay .rpf{position:absolute;left:0;top:0;width:100%;height:100%;transition:opacity .5s}
+#rpA{opacity:0}#rpA.on{opacity:1}
+#rpMq{position:absolute;left:0;top:0;width:1080px;height:150px;transform:translateY(-150px);transition:transform .4s cubic-bezier(.3,.8,.3,1)}
+#rpMq.on{transform:none}
+#rpMq{display:none}
+#rpMq img{position:absolute;left:0;top:-32px;width:1080px;height:190px}
+#rpMq div{position:absolute;left:21px;width:1039px;top:42px;height:44px;line-height:44px;text-align:center;font-size:27px;font-weight:700;color:#fff;letter-spacing:.04em;white-space:nowrap}
+.rpRing{position:absolute;border-radius:50%;border:6px solid rgba(255,255,255,.95);box-shadow:0 0 24px rgba(255,255,255,.9),inset 0 0 18px rgba(255,255,255,.7);animation:rpring 1.2s ease-out forwards;pointer-events:none}
+@keyframes rpring{from{transform:scale(.3);opacity:0}30%{opacity:1}to{transform:scale(1.15);opacity:0}}
+#rvHome{position:absolute;left:2052px;top:1482px;width:308px;height:110px;background:#44449a;color:#fff;font-size:44px;font-weight:700;z-index:5;display:flex;align-items:center;justify-content:center;gap:14px;overflow:hidden;transition:opacity .4s}
+#rvHome.off{opacity:0;pointer-events:none}
+#rvHome svg{width:46px;height:46px}
+#rvHome .tbar{position:absolute;left:0;bottom:0;height:8px;width:100%;background:rgba(255,255,255,.55);transform-origin:left}
+#rvHome.run .tbar{animation:tbar 60s linear forwards}
+@keyframes tbar{to{transform:scaleX(0)}}
+.qx{transition:opacity .3s}
+.qshine{position:absolute;overflow:hidden;pointer-events:none}
+.qshine::before,.qshine::after{content:"";position:absolute;top:-30%;bottom:-30%;left:-60%;width:30%;transform:skewX(-22deg);
+  background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,248,235,.45) 35%,rgba(255,255,255,.85) 50%,rgba(255,248,235,.45) 65%,rgba(255,255,255,0));animation:qsh 2.6s cubic-bezier(.45,0,.35,1) infinite}
+.qshine::after{width:8%;background:rgba(255,255,255,.6);filter:blur(2px);animation-delay:.16s}
+.qshine{box-shadow:inset 0 0 0 2px rgba(255,255,255,0);animation:qedge 2.6s ease-in-out infinite}
+@keyframes qedge{0%,100%{box-shadow:inset 0 0 0 2px rgba(255,255,255,0)}25%{box-shadow:inset 0 0 0 3px rgba(255,255,255,.55),0 0 18px rgba(255,236,200,.5)}}
+@keyframes qsh{0%{left:-60%}55%,100%{left:135%}}
 .rvs.on{opacity:1;pointer-events:auto}
 #rvNext{position:absolute;left:2052px;top:1482px;width:308px;height:110px;z-index:5;transition:opacity .4s}
 #rvNext img{width:100%;height:100%;display:block}
@@ -165,12 +195,12 @@ button:focus-visible{outline:4px solid var(--navy);outline-offset:4px;border-rad
 .hitb{position:absolute;border-radius:14px}
 #qrM{position:absolute;inset:0;background:rgba(20,22,40,.5);display:grid;place-items:center;z-index:9;opacity:0;pointer-events:none;transition:opacity .35s}
 #qrM.on{opacity:1;pointer-events:auto}
-#qrCard{width:860px;padding:64px 0 56px;border-radius:44px;background:#fff;box-shadow:0 20px 60px rgba(0,0,0,.3);display:flex;flex-direction:column;align-items:center;gap:30px;position:relative}
+#qrCard{width:860px;padding:92px 0 56px;border-radius:44px;background:#fff;box-shadow:0 20px 60px rgba(0,0,0,.3);display:flex;flex-direction:column;align-items:center;gap:30px;position:relative}
 #qrCard h3{margin:0;font-size:54px;font-weight:700;color:#3d4491}
 #qrCard p{margin:0;font-size:34px;color:#77746f}
 #qrBox{width:620px;height:620px;display:grid;place-items:center}
 #qrBox canvas{width:620px;height:620px;image-rendering:pixelated}
-#qrX{position:absolute;right:28px;top:24px;width:80px;height:80px;font-size:60px;line-height:80px;color:#9a97a3}
+#qrX{position:absolute;right:22px;top:20px;width:58px;height:58px;font-size:44px;line-height:58px;color:#a9a6b2;border-radius:50%}
 #toast{position:absolute;left:50%;top:1380px;transform:translateX(-50%);padding:26px 56px;border-radius:999px;background:rgba(40,44,90,.9);color:#fff;font-size:40px;font-weight:700;z-index:10;opacity:0;pointer-events:none;transition:opacity .3s}
 #toast.on{opacity:1}
 #saveM{position:absolute;inset:0;background:rgba(20,22,40,.85);z-index:11;display:none;flex-direction:column;align-items:center;justify-content:center;gap:30px;color:#fff;font-size:44px;font-weight:700}
@@ -190,17 +220,18 @@ button:focus-visible{outline:4px solid var(--navy);outline-offset:4px;border-rad
 .shop{display:block;width:100%;height:100%;overflow:visible}
 .doorbtn{cursor:pointer}
 #dr{animation:dpulse 1.6s ease-in-out infinite}
-@keyframes dpulse{50%{filter:drop-shadow(0 0 8px #ffd66b) brightness(1.1)}}
+@keyframes dpulse{50%{filter:drop-shadow(0 0 7px #fff7cf) drop-shadow(0 0 3px #fff) brightness(1.06)}}
 .shop.open #dr{animation:none}
 .shop .dl,.shop .dr2{transition:transform 1.3s cubic-bezier(.6,0,.3,1);transform-box:fill-box}
 .shop .dl{transform-origin:left center}.shop .dr2{transform-origin:right center}
 .shop.open .dl,.shop.open .dr2{transform:scaleX(.12)}
 .qscr.zoom{animation:qzm 1.4s ease-in forwards}@keyframes qzm{to{transform:scale(5);opacity:0}}
-.doorhint{font-weight:700;position:absolute;top:82px;left:0;right:0;text-align:center;color:#5a4a8a;font-size:68px;text-shadow:0 2px 0 #fff,0 0 16px #f8f3ea;animation:qhb 1.2s ease-in-out infinite;pointer-events:none;letter-spacing:.06em}
-@keyframes qhb{50%{transform:translateY(16px)}}
+.doorhint{font-weight:700;position:absolute;top:70px;left:50%;transform:translateX(-50%);padding:40px 76px;background:#fdfbe9;box-shadow:0 6px 16px rgba(70,70,120,.18);color:#44449a;font-size:60px;letter-spacing:.08em;white-space:nowrap;pointer-events:none;animation:qhb 1.4s ease-in-out infinite}
+.doorhint::before{content:"";position:absolute;left:50%;top:-26px;width:150px;height:40px;margin-left:-75px;background:#c9e0a0;opacity:.85;transform:rotate(-2deg)}
+@keyframes qhb{50%{transform:translateX(-50%) translateY(10px)}}
 #loader{position:absolute;inset:0;display:grid;place-items:center;background:var(--ground);color:var(--navy);font-size:44px;font-weight:700;z-index:100;transition:opacity .5s}
 @media (prefers-reduced-motion:reduce){#rig,#store,#panel,#marquee{transition-duration:.01s}#guides path{animation:none}}
-</style>
+</style></head><body>
 
 <div id="vp"><div id="stage">
   <!-- EDITOR -->
@@ -274,7 +305,7 @@ button:focus-visible{outline:4px solid var(--navy);outline-offset:4px;border-rad
         <button id="pgPrev" class="pg" aria-label="上一頁"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 5-7 7 7 7"/></svg></button>
         <div id="scroller"><div id="track"></div></div>
         <button id="pgNext" class="pg" aria-label="下一頁"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"/></svg></button>
-        <div id="sbar"><div id="sthumb"></div></div>
+        <div id="sbar"><div id="sthumb"></div></div><div id="pdots"></div>
       </div>
     </div>
 
@@ -299,19 +330,22 @@ button:focus-visible{outline:4px solid var(--navy);outline-offset:4px;border-rad
     <div class="layer rvs" id="rv4"><img class="abs" data-src="a/rv/bg4.jpg" style="left:0;top:0;width:2360px;height:1655px" alt=""><div id="bubs" class="layer noev"></div></div>
     <div class="layer rvs" id="rv5"><img class="abs" data-src="a/rv/bg5.jpg" style="left:0;top:0;width:2360px;height:1655px" alt=""><div id="rv5n" class="nr"></div></div>
     <div class="layer rvs" id="rv6"><img class="abs" data-src="a/rv/bg6.jpg" style="left:0;top:0;width:2360px;height:1655px" alt=""><div id="board"></div><div id="bEmpty" hidden>這次沒有受到跑馬燈的影響</div>
+      <div id="replay"><img id="rpB" class="rpf" alt=""><img id="rpA" class="rpf" alt=""><div id="rpRings" class="layer" style="width:1080px;height:570px"></div>
+        <div id="rpMq"><img alt=""><div></div></div></div>
       <button id="play" aria-label="播放"><svg viewBox="0 0 24 24"><path d="M6 3.8c0-1 1.1-1.6 1.9-1.1l13 8.2c.8.5.8 1.7 0 2.2l-13 8.2C7.1 21.8 6 21.2 6 20.2z" fill="#fff"/></svg></button></div>
     <div class="layer rvs" id="rv7"><canvas id="rcv" width="2360" height="1655"></canvas>
-      <button class="hitb" id="bDown" aria-label="下載" style="left:830px;top:1502px;width:354px;height:111px"></button>
-      <button class="hitb" id="bShare" aria-label="分享" style="left:1231px;top:1502px;width:352px;height:111px"></button>
+      <button class="hitb" id="bDown" aria-label="下載" style="left:804px;top:1502px;width:354px;height:111px"></button>
+      <button class="hitb" id="bShare" aria-label="分享" style="left:1205px;top:1502px;width:352px;height:111px"></button>
       <div id="qrM"><div id="qrCard"><button id="qrX" aria-label="關閉">×</button><h3>掃描 QR Code 保存你的收據</h3><div id="qrBox"></div><p>用手機相機掃描，就能開啟並儲存這張收據</p></div></div>
     </div>
     <button id="rvNext" aria-label="Next"><img src="a/rv/next.png" alt=""></button>
+    <button id="rvHome" class="off" aria-label="重新開始"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v4.5h4.5"/></svg>重新開始<span class="tbar"></span></button>
     <div id="toast"></div>
     <div id="saveM"><img id="saveImg" alt="你的收據"><div>長按圖片即可儲存</div><button id="saveX" style="font-size:40px;color:#fff;padding:20px 50px;border:3px solid #fff;border-radius:999px">關閉</button></div>
   </div>
 
   <div id="quizL" class="layer" aria-label="櫥窗裡的你 人格測驗"></div>
-  <div id="loader">Recake 準備中…</div>
+  <div id="loader">櫥窗裡的你 準備中…</div>
 </div></div>
 
 <script src="a/qrcode.js"></script>
@@ -332,7 +366,7 @@ const CATS = [
 ];
 const TAB_X = [368,594,795,997,1198,1425,1723,1994];
 const LINES = {
-  fruit:['草莓一直都是人氣王。','加點芒果，最近很受歡迎喔。','大家都愛用藍莓點綴。','清爽系的檸檬也很吸睛。','加片薄荷，看起來更精緻。'],
+  fruit:['草莓一直都是人氣王。','加點芒果，最近很受歡迎喔。','大家都愛用藍莓點綴。','清爽系的檸檬也很吸睛。'],
   cake:['紅色系，看起來更有存在感。','暖橘色最近很受歡迎。','黃色讓蛋糕更亮眼。','綠色系，很多人都在選。','想要吸睛？試試紫色吧。'],
   drizzle:['紅色淋醬，視覺效果很強。','橙色系，讓人一眼就看見。','黃色淋醬，明亮又搶眼。','綠色系也是熱門選擇。','咖啡色，經典又耐看。'],
   cookie:['馬卡龍可是人氣裝飾。','加根脆笛酥，畫面更豐富。','彩色豆豆糖，大家都愛用。','星星糖，讓蛋糕更亮眼。','愛心糖也很受歡迎喔。'],
@@ -379,7 +413,7 @@ function fit(){
   SC = Math.abs(a-d)/d < .025 ? Math.max(w/2360,h/1655) : Math.min(w/2360,h/1655);
   OX=(w-2360*SC)/2; OY=(h-1655*SC)/2;
   // receipt opened on a phone held upright: zoom in on the receipt itself
-  if(/^#r=/.test(location.hash)&&a<1.1){SC=Math.min(w/1420,h/1655);OX=w/2-1232*SC;OY=(h-1655*SC)/2}
+  if(/^#r=/.test(location.hash)&&a<1.1){SC=Math.min(w/1420,h/1655);OX=w/2-1180*SC;OY=(h-1655*SC)/2}
   stage.style.transform=`translate(${OX}px,${OY}px) scale(${SC})`;
 }
 addEventListener('resize',fit); fit();
@@ -554,9 +588,10 @@ function paintHint(){
   }
   h.textContent=t;h.classList.toggle('on',!!t);
 }
+const PBAG={}; // shuffled bag per candy so each colour appears equally often
 function placeSpec(i){const it=META[curCat.key][i];
   // candy that shows several pieces in the menu goes onto the cake one piece at a time, picked at random
-  if(it.pieces&&it.pieces.length){const [src,pw,ph]=it.pieces[Math.floor(Math.random()*it.pieces.length)];
+  if(it.pieces&&it.pieces.length){const bag=PBAG[it.id]=(PBAG[it.id]&&PBAG[it.id].length)?PBAG[it.id]:[...it.pieces].sort(()=>Math.random()-.5);const [src,pw,ph]=bag.pop();
     let k=K_PLACE*1.2;if(Math.max(pw,ph)*k<80)k=80/Math.max(pw,ph);return {src,w:pw*k,h:ph*k};}
   const src=it.place||it.id, w=(it.pw||it.w)*K_PLACE, h=(it.ph||it.h)*K_PLACE;return {src,w,h};}
 function addItem(sp,p,tint){
@@ -662,6 +697,10 @@ function updPager(){
   sc.classList.toggle('fadeR',more&&sc.scrollLeft<max-2);sc.classList.toggle('fadeL',more&&sc.scrollLeft>2);
   const T=1644,tw=Math.max(160,T*Math.min(1,v/w)),x=more?(T-tw)*sc.scrollLeft/max:0;
   $('sthumb').style.width=tw+'px';$('sthumb').style.left=x+'px';$('sbar').style.opacity=more?1:0;
+  // small page dots: ● ○ on the first page, ● ● on the second
+  const step=Math.max(300,v-120),pages=more?1+Math.ceil((max-2)/step):1,cur=!more?0:sc.scrollLeft>=max-2?pages-1:Math.min(pages-1,Math.round(sc.scrollLeft/step));
+  const pd=$('pdots');pd.style.left='1180px';
+  pd.innerHTML=pages>1?Array.from({length:pages},(_,i)=>`<i class="${i===cur?'f':''}"></i>`).join(''):'';
 }
 sc.addEventListener('scroll',updPager,{passive:true});
 function refreshOn(){
@@ -742,7 +781,15 @@ function openModePick(kind,i,el){
 /* bows: plain ones get a colour palette, dotted and plaid ones get ready-made colour sets */
 const BOW_KIND=['dot','dot','plain','plain','plaid','plaid'];
 const DOT_SETS=[null,['#f6c9cf','#8a3b4a'],['#fff0b3','#d9822b'],['#cfe8c4','#3f7a4a'],['#e2d3f3','#5e3f8f'],['#ffffff','#d94848'],['#3d4a7a','#ffffff']];
-const PLAID_SETS=[null,{deg:50},{deg:110},{deg:170},{deg:230},{deg:290},{deg:0,sat:.25}];
+// plaid bows: each stripe colour of the original is mapped to a new soft colour (same family or a gentle contrast)
+const PLAID={
+  bow_4:{slots:[[0,60],[150,260],[260,330],[330,360]],sets:[
+    ['#c9b8e8','#9d8cd1','#e3d9f5','#b7a3dd'],['#f6c2a2','#a8c9a4','#f2dcc8','#e8a8a0'],['#b8d3ec','#8fb3d9','#dbe8f5','#a5c4e4'],
+    ['#f5dc93','#9ab6d6','#f8edc9','#e9c27a'],['#b9e2cf','#86c4ab','#dff1e8','#a2d6c0'],['#eeb3bf','#b9cfae','#f7e7d3','#df9aa9']]},
+  bow_5:{slots:[[330,22],[22,72],[72,230]],sets:[
+    ['#e9a6b2','#f6cfd5','#d98e9e'],['#b7a6dc','#f4df9c','#d7cdee'],['#9fc29a','#d3e6c8','#7fae86'],['#9cc0e3','#f7c9a6','#c8dcf0'],
+    ['#86c1bf','#f2b0a0','#c4e2df'],['#d9b48f','#f0dcc2','#c49a74']]},
+};
 function openBowPick(i,el){
   const kind=BOW_KIND[i],src=META.bow[i].id;
   if(kind==='plain'){
@@ -757,13 +804,13 @@ function openBowPick(i,el){
     bindField(p.querySelector('.field'),(fx,fy)=>{c.h=fx*359.9;c.l=LT-fy*(LT-LB);set()});set();
     return;
   }
-  const sets=kind==='dot'?DOT_SETS:PLAID_SETS;
+  const sets=kind==='dot'?DOT_SETS:[null,...(PLAID[src]?PLAID[src].sets:[])];
   const p=newPop(el,`<h2>蝴蝶結・選一組配色</h2><div class="sets"></div>
     <div class="pfoot"><span class="hint2">選好後點蛋糕放上去</span><button class="done">完成</button></div>`,'bow'+i,'wide');
   if(!p)return;
   const box=p.querySelector('.sets');
   sets.forEach((s,k)=>{const b=document.createElement('button');b.className='set';
-    const tint=s?(kind==='dot'?{t:'dot',base:s[0],dot:s[1]}:{t:'plaid',...s}):null;
+    const tint=s?(kind==='dot'?{t:'dot',base:s[0],dot:s[1]}:{t:'pal',c:s}):null;
     const im=document.createElement('img');im.src=tint?tintURL(src,tint):`a/${src}.png`;b.appendChild(im);
     b.onclick=()=>{box.querySelectorAll('.set').forEach(x=>x.classList.remove('on'));b.classList.add('on');arm={kind:'item',i,tint};refreshOn();paintHint()};
     box.appendChild(b);if(k===0)b.click()});
@@ -792,6 +839,14 @@ function tintURL(src,t){
   const im=IMG[src];if(!im)return `a/${src}.png`;
   const c=document.createElement('canvas');c.width=im.naturalWidth;c.height=im.naturalHeight;
   const x=c.getContext('2d');x.drawImage(im,0,0);const d=x.getImageData(0,0,c.width,c.height),p=d.data;
+  if(t.t==='pal'){const S=(PLAID[src]||PLAID.bow_4).slots,T=t.c.map(h=>{const [r,g,b]=hexRGB(h);return rgb2hsl(r,g,b)});
+    const slot=h=>S.findIndex(([a,b])=>a<b?h>=a&&h<b:h>=a||h<b),sum=S.map(()=>[0,0]);
+    for(let i=0;i<p.length;i+=4){if(p[i+3]<128)continue;const [h,sa,l]=rgb2hsl(p[i],p[i+1],p[i+2]);if(sa<18)continue;const k=slot(h);if(k>=0){sum[k][0]+=l;sum[k][1]++}}
+    const Lc=sum.map(v=>v[1]?v[0]/v[1]:65);
+    for(let i=0;i<p.length;i+=4){if(!p[i+3])continue;const [h,sa,l]=rgb2hsl(p[i],p[i+1],p[i+2]);const w=Math.min(1,Math.max(0,(sa-8)/17));if(!w)continue;
+      const k=slot(h);if(k<0)continue;const [th,ts,tl]=T[k];const o=hsl2rgb(th,ts,Math.min(100,Math.max(0,tl+(l-Lc[k])*.6)));
+      for(let q=0;q<3;q++)p[i+q]=o[q]*w+p[i+q]*(1-w)}
+    x.putImageData(d,0,0);return TINT[key]=c.toDataURL('image/png');}
   const info=t.t!=='plaid'?bowInfo(src):null;
   const shade=(T,f)=>T.map(v=>f<=1?v*f:v+(255-v)*Math.min(1,(f-1)*1.6));
   const plainT=t.t==='plain'?hsl2rgb(t.h,t.s,t.l):null,baseT=t.t==='dot'?hexRGB(t.base):null,dotT=t.t==='dot'?hexRGB(t.dot):null;
@@ -836,6 +891,23 @@ let mqFirst=null;
 function stopMarquee(){clearInterval(mqTimer);clearTimeout(mqHide);clearTimeout(mqFirst);hideMarquee();}
 swipe($('mHandle'),()=>{clearTimeout(mqHide);hideMarquee()},null,null);
 
+/* ---------- sound ---------- */
+const BGM=new Audio('a/bgm.mp3');BGM.loop=true;BGM.preload='auto';BGM.volume=.4;
+let actx=null,clickBuf=null;
+function unlockAudio(){
+  if(RECEIPT)return;
+  if(!actx){try{actx=new (window.AudioContext||window.webkitAudioContext)();
+    fetch('a/click.mp3').then(r=>r.arrayBuffer()).then(b=>new Promise((ok,no)=>actx.decodeAudioData(b,ok,no))).then(d=>clickBuf=d).catch(()=>{})}catch(e){}}
+  if(actx&&actx.state==='suspended')actx.resume().catch(()=>{});
+  if(BGM.paused)BGM.play().catch(()=>{});
+}
+['pointerdown','touchend','click'].forEach(ev=>addEventListener(ev,unlockAudio,{capture:true,passive:true}));
+function sfx(){if(!actx||!clickBuf)return;try{const s=actx.createBufferSource(),g=actx.createGain();g.gain.value=.9;s.buffer=clickBuf;s.connect(g);g.connect(actx.destination);s.start()}catch(e){}}
+// every tap during the personality quiz, and every pick from the decorating menu
+$('quizL').addEventListener('pointerdown',()=>sfx(),true);
+menuBar.addEventListener('pointerdown',e=>{if(e.target.closest('.tab'))sfx()});
+$('track').addEventListener('pointerdown',e=>{if(e.target.closest('.item'))sfx()});
+
 /* ---------- usage tracking (for the review) ---------- */
 // idle time: gaps of more than 5 s between two touches count as blank time
 let quizType=null,opT=[],undoN=0,mqLog=[],lastSum=null,skipTrack=false;
@@ -847,18 +919,34 @@ function catOf(src){const m=/^(fruit|slice|cookie|piece|gem|flower|bow)_/.exec(s
 function decCounts(st){const c={fruit:0,cookie:0,gem:0,bow:0,flower:0};
   st.items.forEach(it=>{const k=catOf(it.src);if(k)c[k]++});
   c.cookie+=Object.values(st.fingers||{}).filter(Boolean).length;return c}
+let prevSnap=null;
+// what each marquee line actually suggests: a specific item (by picture) or a colour family
+const LINE_TGT={
+  '草莓一直都是人氣王。':/^(slice|fruit)_0$/,'加點芒果，最近很受歡迎喔。':/^(slice|fruit)_3$/,'大家都愛用藍莓點綴。':/^fruit_7$/,'清爽系的檸檬也很吸睛。':/^(slice|fruit)_5$/,
+  '馬卡龍可是人氣裝飾。':/^piece_2_/,'加根脆笛酥，畫面更豐富。':/^(cookie_0|piece_3_\d)$/,'彩色豆豆糖，大家都愛用。':/^piece_(9|10)_/,'星星糖，讓蛋糕更亮眼。':/^piece_8_/,'愛心糖也很受歡迎喔。':/^piece_7_/,
+  '點點款，看起來更活潑。':/^bow_[01]$/,'格紋款，最近很有人氣。':/^bow_[45]$/,'素色款，簡單又有質感。':/^bow_[23]$/,
+  '玫瑰一直都很受歡迎。':/^flower_[01]$/,'粉色玫瑰，看起來更甜美。':/^flower_1$/,'白色洋甘菊，簡單又清新。':/^flower_4$/,'桃紅色小蒼蘭，很難不注意。':/^flower_2$/,
+  '紅色系，看起來更有存在感。':0,'暖橘色最近很受歡迎。':1,'黃色讓蛋糕更亮眼。':2,'綠色系，很多人都在選。':3,'想要吸睛？試試紫色吧。':5,
+  '紅色淋醬，視覺效果很強。':0,'橙色系，讓人一眼就看見。':1,'黃色淋醬，明亮又搶眼。':2,'綠色系也是熱門選擇。':3,'咖啡色，經典又耐看。':5,
+};
+function lineMatches(e,k,d){if(e.cat!==k)return false;const t=LINE_TGT[e.text];
+  if(t==null)return true;                       // a general line ("加朵花…") counts for anything in its category
+  if(typeof t==='number')return d.fam===t;
+  return d.srcs.some(x=>t.test(x))}
 function trackActions(){
-  const c=decCounts(state),sum={...c,cake:JSON.stringify(state.cake),drizzle:JSON.stringify(state.drizzle)};
-  if(lastSum&&!skipTrack&&!shipping){
-    DEC.forEach(k=>{if(sum[k]>lastSum[k])influenced(k)});
-    if(sum.cake!==lastSum.cake)influenced('cake');
-    if(sum.drizzle!==lastSum.drizzle&&state.drizzle)influenced('drizzle');
+  const c=decCounts(state),sum={...c,cake:JSON.stringify(state.cake),drizzle:JSON.stringify(state.drizzle)},cur=snap();
+  if(lastSum&&!skipTrack&&!shipping&&prevSnap){
+    const P=JSON.parse(prevSnap),old=new Set(P.items.map(t=>t.uid)),added=state.items.filter(t=>!old.has(t.uid)).map(t=>t.src);
+    if(Object.values(state.fingers).filter(Boolean).length>Object.values(P.fingers||{}).filter(Boolean).length)added.push('finger');
+    DEC.forEach(k=>{if(sum[k]>lastSum[k])influenced(k,prevSnap,cur,{srcs:added})});
+    if(sum.cake!==lastSum.cake)influenced('cake',prevSnap,cur,{fam:state.cake.fam,srcs:[]});
+    if(sum.drizzle!==lastSum.drizzle&&state.drizzle)influenced('drizzle',prevSnap,cur,{fam:state.drizzle.fam,srcs:[]});
   }
-  lastSum=sum;skipTrack=false;
+  lastSum=sum;prevSnap=cur;skipTrack=false;
 }
 // a marquee line "influenced" the user when, within 10 s of it appearing, they did what it suggested
-function influenced(k){const now=performance.now();
-  for(let i=mqLog.length-1;i>=0;i--){const e=mqLog[i];if(now-e.t>10000)break;if(e.cat===k&&!e.hit){e.hit=true;break}}}
+function influenced(k,before,after,d){const now=performance.now();
+  for(let i=mqLog.length-1;i>=0;i--){const e=mqLog[i];if(now-e.t>10000)break;if(!e.hit&&lineMatches(e,k,d)){e.hit=true;e.before=before;e.after=after;break}}}
 function lineCat(t){return Object.keys(LINES).find(k=>LINES[k].includes(t))||null}
 
 /* ---------- ship → storefront → review ---------- */
@@ -869,7 +957,7 @@ $('bShip').onclick=()=>{
   for(let i=1;i<pts.length;i++){const g=pts[i]-pts[i-1];if(g>5000)idle+=g}
   shipping=true;sel=null;arm=null;stopMarquee();render();
   REC={T:quizType||'R',a:Math.round(elapsed/1000),i:Math.min(Math.round(idle/1000),Math.round(elapsed/1000)),u:undoN,
-       lines:mqLog.filter(e=>e.hit).map(e=>({t:e.text,k:e.k})),c:decCounts(state)};
+       lines:mqLog.filter(e=>e.hit).map(e=>({t:e.text,k:e.k,b:e.before,a:e.after})),c:decCounts(state)};
   REC.m=REC.lines.length;REC.p=pcts(REC.c);imgURL=null;
   $('ui').classList.add('off');panel.classList.remove('collapsed');
   setTimeout(()=>{
@@ -880,9 +968,15 @@ $('bShip').onclick=()=>{
   loadReviewImages();
   const ready7=buildReceipt();
   setTimeout(()=>{
-    cakeClone($('rv1Cake'),1222,653,.653);
-    buildReview();
-    $('rv').hidden=false;rvShow(1);
+    // the cake glides from the shop window onto the paper while the page fades in underneath it
+    cakeClone($('rv1Cake'),1222,653,.653);buildReview();
+    const cl=$('rv1Cake').firstChild,bg=$('rv1').querySelector(':scope > img'),fin=cl.style.transform;
+    cl.style.transform='translate(22.5px,166.5px) scale(.715)';cl.style.filter='drop-shadow(0 0 26px rgba(255,255,255,.95))';
+    bg.style.opacity=0;$('rvNext').classList.add('off');
+    const r1=$('rv1');r1.style.transition='none';r1.classList.add('on');rvIdx=1;$('rv').hidden=false;void r1.offsetWidth;r1.style.transition='';
+    requestAnimationFrame(()=>{bg.style.opacity=1;cl.style.transition='transform 1.6s cubic-bezier(.45,.05,.25,1),filter 1.4s';cl.style.transform=fin;cl.style.filter='drop-shadow(0 0 0 rgba(255,255,255,0))'});
+    setTimeout(()=>{if(rvIdx===1)$('rvNext').classList.remove('off')},1500);
+    setTimeout(()=>{if(rvIdx)rcvReady.then(()=>{if(!replayReady)buildReplays()})},1800);
   },4400);
 };
 function loadReviewImages(){document.querySelectorAll('#rv img[data-src]').forEach(im=>{if(!im.src)im.src=im.dataset.src})}
@@ -908,8 +1002,13 @@ function numRow(el,parts,{cx,base,d,u,color,font=700,ufont=700,gapL=.2,gapR=.17,
   el.innerHTML=parts.map(([n,un],i)=>`<span style="font-size:${d}px;font-weight:${font}">${n}</span><span class="u" style="font-size:${u}px;font-weight:${ufont};margin-left:${gapL*d}px;${i<parts.length-1?`margin-right:${gapR*d}px;`:''}top:${-lift*d}px">${un}</span>`).join('');
 }
 let rvIdx=0;
+let homeTimer=null;
 function rvShow(i){
   const prev=rvIdx;rvIdx=i;
+  if(prev===6&&i!==6)stopReplay();
+  clearTimeout(homeTimer);const H=$('rvHome');H.classList.remove('run');
+  H.classList.toggle('off',!(i===7&&!RECEIPT));
+  if(i===7&&!RECEIPT){void H.offsetWidth;H.classList.add('run');homeTimer=setTimeout(restart,60000)}
   for(let k=1;k<=7;k++)$('rv'+k).classList.toggle('on',k===i||(k===prev&&k<i));
   if(prev&&prev<i)setTimeout(()=>{if(rvIdx===i)$('rv'+prev).classList.remove('on')},650);
   $('rvNext').classList.toggle('off',i>=7);
@@ -918,6 +1017,7 @@ function rvShow(i){
   if(i===2||i===5)[$('rv2n'),$('rv5n')].forEach(e=>{e.classList.remove('rvpop');void e.offsetWidth;e.classList.add('rvpop')});
 }
 $('rvNext').onclick=()=>{if(rvIdx<7)rvShow(rvIdx+1)};
+$('rvHome').onclick=()=>restart();
 const NAVY='#4a4994';
 function buildReview(){
   const R=REC;
@@ -1000,19 +1100,71 @@ function buildBoard(lines){
   $('play').classList.remove('off','small');
   if(lines.length)cardSet(lines.slice(0,6),true);else $('board').innerHTML='';
 }
-$('play').onclick=()=>{
-  const P=$('play');P.classList.add('off');clearTimeout(playing);
+/* each marquee line that got through is replayed: the cake just before, the marquee dropping in, then what the visitor did */
+let replayReady=null,playTok=0;
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+const FW=1080,FH=570;
+function sceneCanvas(cake){ // cake drawn over the decorating table, same coordinates as the editor
+  const c=document.createElement('canvas');c.width=2360;c.height=1655;const x=c.getContext('2d');
+  if(IMG['bg.jpg'])x.drawImage(IMG['bg.jpg'],0,0,2360,1655);else{x.fillStyle='#e6ecf4';x.fillRect(0,0,2360,1655)}
+  if(IMG.table)x.drawImage(IMG.table,0,1098,2359,557);
+  x.fillStyle='#efefef';x.beginPath();x.ellipse(1179,1197.5,713,146,0,0,Math.PI);x.lineTo(466,1159.5);x.ellipse(1179,1159.5,713,146,0,Math.PI,0,true);x.fill();
+  x.fillStyle='#fff';x.beginPath();x.ellipse(1179,1159.5,713,146,0,0,Math.PI*2);x.fill();
+  x.drawImage(cake,0,0);return c}
+function viewFor(spots){ // the part of the scene to zoom in on
+  if(!spots.length)return {x:1179-850,y:840-447,w:1700,h:895};
+  let x0=Math.min(...spots.map(p=>p[0])),x1=Math.max(...spots.map(p=>p[0])),y0=Math.min(...spots.map(p=>p[1])),y1=Math.max(...spots.map(p=>p[1]));
+  let w=Math.max(720,(x1-x0)+420),h=w*FH/FW;if((y1-y0)+300>h){h=(y1-y0)+300;w=h*FW/FH}
+  const cx=(x0+x1)/2,cy=(y0+y1)/2-30;
+  return {x:Math.min(2360-w,Math.max(0,cx-w/2)),y:Math.min(1655-h,Math.max(0,cy-h/2)),w,h}}
+let epoch=0;
+function buildReplays(){const ep=epoch;return replayReady=(async()=>{
+  const lines=(REC&&REC.lines)||[];if(!lines.length)return;
+  const keep=state;
+  const shot=async(st,v)=>{state=JSON.parse(st);paintCake();paintDrip();paintCream();paintFingers();
+    const big=sceneCanvas(await cakeCanvas()),c=document.createElement('canvas');c.width=FW;c.height=FH;
+    c.getContext('2d').drawImage(big,v.x,v.y,v.w,v.h,0,0,FW,FH);
+    const b=await new Promise(r=>c.toBlob(r,'image/jpeg',.9));return b?URL.createObjectURL(b):c.toDataURL()};
+  try{for(const l of lines){if(!l.b||!l.a)continue;
+      const B=JSON.parse(l.b),A=JSON.parse(l.a),old=new Set(B.items.map(t=>t.uid));
+      l.spots=A.items.filter(t=>!old.has(t.uid)).map(t=>[t.x,t.y,Math.max(t.w,t.h)*(t.s||1)]);
+      if(!l.spots.length&&Object.keys(A.fingers||{}).length>Object.keys(B.fingers||{}).length)l.spots=[[CK.cx,CK.by,300]];
+      l.view=viewFor(l.spots);
+      l.fb=await shot(l.b,l.view);if(ep!==epoch)return;l.fa=await shot(l.a,l.view);if(ep!==epoch)return}}
+  catch(e){console.warn('replay',e)}
+  state=keep;paintCake();paintDrip();paintCream();paintFingers();
+})()}
+async function playReplay(l,tok){
+  if(!l.fb)return;
+  const R=$('replay'),A=$('rpA'),M=$('rpMq'),rings=$('rpRings'),Bd=$('board');
+  $('rpB').src=l.fb;A.src=l.fa;A.classList.remove('on');M.classList.remove('on');rings.innerHTML='';
+  M.querySelector('img').src=`a/mq_${l.k%5}.png`;M.querySelector('div').textContent=l.t;
+  try{await Promise.all([$('rpB').decode(),A.decode()])}catch(e){}
+  if(tok!==playTok)return;
+  Bd.classList.add('dim');R.classList.add('on');await wait(1400);if(tok!==playTok)return;
+  A.classList.add('on');const v=l.view,k=FW/v.w;
+  (l.spots||[]).forEach(([x,y,sz])=>{const d=Math.max(120,Math.min(420,(sz||200)*k*1.25)),r=document.createElement('div');r.className='rpRing';
+    r.style.cssText=`left:${(x-v.x)*k-d/2}px;top:${(y-v.y)*k-d/2}px;width:${d}px;height:${d}px`;rings.appendChild(r)});
+  await wait(2600);if(tok!==playTok)return;
+  M.classList.remove('on');R.classList.remove('on');Bd.classList.remove('dim');await wait(400);
+}
+function stopReplay(){playTok++;$('replay').classList.remove('on');$('rpMq').classList.remove('on');$('board').classList.remove('dim');
+  const P=$('play');if(boardLines.length&&P.classList.contains('off')){P.classList.add('small');P.classList.remove('off');
+    [...$('board').children].forEach(e=>{e.style.opacity='';e.classList.remove('ghost')})}}
+$('play').onclick=async()=>{
+  const P=$('play'),tok=++playTok;P.classList.add('off');
+  await (replayReady||buildReplays());if(tok!==playTok)return;
   const batches=[];for(let i=0;i<boardLines.length;i+=6)batches.push(boardLines.slice(i,i+6));
-  let b=0;
-  const runBatch=()=>{
+  for(let b=0;b<batches.length;b++){
     const els=cardSet(batches[b],false);els.forEach(e=>{e.style.opacity=0});
-    els.forEach((e,i)=>{playing=setTimeout(()=>{e.style.opacity='';e.classList.add('rvpop')},500+i*1100)});
-    playing=setTimeout(()=>{b++;
-      if(b<batches.length){[...$('board').children].forEach(e=>{e.classList.remove('rvpop');e.style.opacity=0});playing=setTimeout(runBatch,600)}
-      else{P.classList.add('small');P.classList.remove('off')}
-    },500+els.length*1100+1600);
-  };
-  runBatch();
+    for(let i=0;i<els.length;i++){
+      els[i].style.opacity='';els[i].classList.add('rvpop');await wait(2600);if(tok!==playTok)return;
+      await playReplay(batches[b][i],tok);if(tok!==playTok)return;
+      await wait(700);if(tok!==playTok)return;
+    }
+    if(b<batches.length-1){await wait(2000);if(tok!==playTok)return;els.forEach(e=>{e.classList.remove('rvpop');e.style.opacity=0});await wait(600)}
+  }
+  P.classList.add('small');P.classList.remove('off');
 };
 
 /* ---------- receipt (screen 7) — drawn on a canvas so the saved picture is exactly what is shown ---------- */
@@ -1068,6 +1220,7 @@ function buildReceipt(){return rcvReady=(async()=>{
   const [bg,cake,...circ]=await Promise.all([loadImg('a/rv/bg7.jpg'),cakeCanvas(),...DEC.map(k=>loadImg(`a/rv/b7_${k}.webp`))]);
   const c=$('rcv'),x=c.getContext('2d');x.clearRect(0,0,2360,1655);
   if(bg)x.drawImage(bg,0,0,2360,1655);
+  x.save();x.translate(-52,0);   // the receipt cards were moved 52 px left so they sit in the middle
   // cake in the photo box
   x.save();x.beginPath();x.rect(585,258,610,462);x.clip();
   const k=.382,cx=894.5,ty=384.5;x.translate(cx-1179*k,ty-567*k);x.scale(k,k);x.drawImage(cake,0,0);x.restore();
@@ -1088,7 +1241,7 @@ function buildReceipt(){return rcvReady=(async()=>{
     x.fillStyle='#fffef8';x.textAlign='center';x.font=`700 30px ${F}`;x.fillText(DEC_NAME[kk],cxx,1297);
     x.font=`700 60px ${F}`;const s=String(R.p[kk]),sw=x.measureText(s).width;x.font=`700 34px ${F}`;const pw=x.measureText('%').width;
     x.textAlign='left';x.font=`700 60px ${F}`;x.fillText(s,cxx-(sw+pw+3)/2,1363);x.font=`700 34px ${F}`;x.fillText('%',cxx-(sw+pw+3)/2+sw+3,1363)});
-  x.textAlign='left';
+  x.textAlign='left';x.restore();
   shareURL=await receiptURL();
 })().catch(e=>console.warn('receipt',e))}
 
@@ -1145,7 +1298,7 @@ $('qrX').onclick=e=>{e.stopPropagation();$('qrM').classList.remove('on')};
 $('qrM').onclick=e=>{if(e.target===$('qrM'))$('qrM').classList.remove('on')};
 $('bShare').onclick=async()=>{
   await rcvReady;
-  if(RECEIPT&&navigator.share){try{await navigator.share({title:'我的 Recake 收據',url:shareURL});return}catch(e){if(e&&e.name==='AbortError')return}}
+  if(RECEIPT&&navigator.share){try{await navigator.share({title:'櫥窗裡的你｜我的收據',url:shareURL});return}catch(e){if(e&&e.name==='AbortError')return}}
   const link=RECEIPT?shareURL:await linkToShare();
   toast(await copyText(link)?'連結已複製，可以貼給朋友了！':'無法自動複製，請長按網址列複製連結');
 };
@@ -1153,15 +1306,18 @@ $('bShare').onclick=async()=>{
 async function saveImage(){
   await rcvReady;const src=$('rcv'),c=document.createElement('canvas');c.width=2360;c.height=1495;c.getContext('2d').drawImage(src,0,0);
   let blob=null;try{blob=await new Promise(r=>c.toBlob(r,'image/png'))}catch(e){}
-  if(blob){const file=new File([blob],'recake-receipt.png',{type:'image/png'});
+  if(blob){const file=new File([blob],'櫥窗裡的你-收據.png',{type:'image/png'});
     if(navigator.canShare&&navigator.canShare({files:[file]})){try{await navigator.share({files:[file]});return}catch(e){if(e&&e.name==='AbortError')return}}
     const u=URL.createObjectURL(blob);$('saveImg').src=u;$('saveM').classList.add('on');
-    const a=document.createElement('a');a.href=u;a.download='recake-receipt.png';document.body.appendChild(a);a.click();a.remove();return}
+    const a=document.createElement('a');a.href=u;a.download='櫥窗裡的你-收據.png';document.body.appendChild(a);a.click();a.remove();return}
   toast('請直接截圖保存這張收據');
 }
 $('saveX').onclick=()=>$('saveM').classList.remove('on');
 
 function restart(){
+  clearTimeout(homeTimer);stopReplay();$('rvHome').classList.add('off');$('rvHome').classList.remove('run');
+  $('qrM').classList.remove('on');$('saveM').classList.remove('on');$('toast').classList.remove('on');
+  boardLines=[];replayReady=null;REC=null;epoch++;
   state=fresh();history=[];curCat=null;arm=null;sel=null;lastTab=null;shipping=false;skipTrack=true;
   const rig=$('rig');rig.style.transition='none';rig.style.transform='';rig.style.filter='';
   const st=$('store');st.style.transition='none';st.classList.remove('in');
@@ -1181,14 +1337,14 @@ async function openReceipt(){
   shipping=true;quizDone=true;render();$('ui').classList.add('off');
   await buildReceipt();shareURL=location.href;
   $('rv').hidden=false;rvShow(7);
-  try{const b=await receiptBlob();$('saveImg').src=URL.createObjectURL(b);$('saveImg').style.width='1360px';$('saveM').style.transform='translateX(52px)';$('saveM').classList.add('on')}catch(e){}
+  try{const b=await receiptBlob();$('saveImg').src=URL.createObjectURL(b);$('saveImg').style.width='1360px';$('saveM').classList.add('on')}catch(e){}
   return true;
 }
 /* ---------- personality quiz (built in, same stage) ---------- */
 const QG={"hits": {"q1": [[192, 220, 920, 685], [1423, 206, 2154, 685], [786, 644, 1517, 1097], [163, 959, 890, 1391], [1500, 958, 2231, 1390]], "q2": [[156, 710, 1068, 898], [268, 972, 1180, 1159], [204, 1220, 1117, 1407], [1246, 798, 2158, 986], [1324, 1087, 2235, 1274]], "q3": [[1025, 540, 2215, 710], [1025, 708, 2215, 916], [1025, 904, 2215, 1123], [1025, 1096, 2215, 1308], [1025, 1280, 2215, 1485]], "q4": [[145, 949, 603, 1413], [314, 372, 771, 837], [958, 236, 1416, 701], [1600, 372, 2058, 837], [1764, 948, 2221, 1413]], "q5": [[504, 379, 1883, 587], [504, 617, 1883, 825], [504, 856, 1883, 1064], [504, 1094, 1883, 1302], [504, 1332, 1883, 1541]]}, "dlg": {"q1": {"lines": [{"t": "歡迎光臨!你第一次來到這間蛋糕店，", "s": 39.98, "ls": 1.35, "red": false, "x": 1255.1, "base": 849.8, "xs": [1255.1, 1296.4, 1337.8, 1378.4, 1421.8, 1440.1, 1482.1, 1523.4, 1564.1, 1604.0, 1645.3, 1686.7, 1728.0, 1769.3, 1810.0, 1851.3, 1892.6]}, {"t": "今天你可以做一個只屬於自己的蛋糕。", "s": 39.81, "ls": 1.35, "red": false, "x": 1254.4, "base": 907.5, "xs": [1255.1, 1296.3, 1337.4, 1378.6, 1419.7, 1460.9, 1502.1, 1543.2, 1583.7, 1624.8, 1666.0, 1707.2, 1749.0, 1789.5, 1830.6, 1871.1, 1913.7]}, {"t": "如果這個蛋糕代表你……", "s": 40.68, "ls": 0.42, "red": false, "x": 1255.1, "base": 965.2, "xs": [1255.1, 1296.2, 1337.3, 1378.4, 1419.5, 1460.6, 1501.0, 1542.1, 1583.2, 1624.3, 1665.4]}, {"t": "你會選擇哪一種?", "s": 66.23, "ls": 1.99, "red": true, "x": 1255.1, "base": 1063.9, "xs": [1255.1, 1322.6, 1389.5, 1456.3, 1523.8, 1592.0, 1657.5, 1732.7]}], "tri": [1894.8, 1028.5, 1932.4, 1061.1]}, "q2": {"lines": [{"t": "桌上多了樣沒見過的材料，", "s": 40.0, "ls": 1.14, "red": false, "x": 1254.4, "base": 850.1, "xs": [1255.1, 1296.3, 1338.1, 1379.3, 1419.7, 1460.8, 1502.0, 1543.1, 1584.3, 1625.4, 1666.6, 1707.7]}, {"t": "我們也不知道它和蛋糕搭不搭……", "s": 40.7, "ls": 0.4, "red": false, "x": 1255.1, "base": 907.8, "xs": [1255.1, 1296.2, 1337.3, 1378.4, 1419.5, 1460.6, 1501.7, 1542.8, 1583.9, 1624.3, 1666.1, 1707.2, 1748.3, 1789.3, 1830.4]}, {"t": "如果是你，", "s": 66.61, "ls": 0.52, "red": true, "x": 1254.4, "base": 996.9, "xs": [1255.1, 1322.3, 1389.4, 1456.5, 1524.4]}, {"t": "你會怎麼做?", "s": 66.26, "ls": 2.64, "red": true, "x": 1255.1, "base": 1076.9, "xs": [1255.1, 1322.6, 1389.5, 1456.3, 1523.8, 1599.7]}], "tri": [1868.0, 1034.5, 1904.9, 1067.2]}, "q3": {"lines": [{"t": "這塊素色蛋糕胚沒有指定的做法，你可以用桌上的材料，完成屬於自己的蛋糕!", "s": 39.83, "ls": 1.35, "red": false, "x": 242.2, "base": 306.1, "xs": [242.2, 284.1, 325.3, 365.8, 406.9, 448.1, 489.3, 531.2, 571.7, 612.1, 653.3, 695.2, 736.4, 777.5, 817.3, 859.2, 900.4, 941.5, 982.7, 1023.9, 1065.1, 1105.6, 1147.4, 1188.6, 1229.1, 1270.3, 1311.4, 1352.6, 1393.8, 1435.0, 1476.1, 1516.6, 1557.8, 1599.0, 1642.9]}, {"t": "一切由你決定，你會怎麼動手?", "s": 66.26, "ls": 1.5, "red": true, "x": 242.2, "base": 407.0, "xs": [242.2, 310.0, 376.4, 444.1, 510.5, 578.2, 646.0, 712.4, 779.4, 845.8, 913.6, 980.6, 1047.7, 1122.4]}], "tri": [1198.1, 370.8, 1235.7, 402.8]}, "q4": {"lines": [{"t": "做到一半時，蛋糕意外塌了一側……", "s": 40.68, "ls": 0.37, "red": false, "x": 1223.1, "base": 850.4, "xs": [1223.1, 1264.2, 1305.2, 1346.3, 1387.3, 1429.0, 1469.4, 1510.5, 1552.2, 1593.2, 1634.3, 1675.3, 1716.4, 1757.4, 1798.5, 1839.5]}, {"t": "原本設計好的裝飾也歪掉了。", "s": 39.98, "ls": 1.1, "red": false, "x": 1223.1, "base": 907.5, "xs": [1223.1, 1264.2, 1306.0, 1347.1, 1388.1, 1429.2, 1470.3, 1510.7, 1551.8, 1592.9, 1633.9, 1675.7, 1723.8]}, {"t": "現在的蛋糕和你原本想像的樣子不太一樣。", "s": 39.98, "ls": 1.12, "red": false, "x": 1223.1, "base": 965.2, "xs": [1223.1, 1264.2, 1306.0, 1347.1, 1388.2, 1428.6, 1469.7, 1510.8, 1551.9, 1593.0, 1634.2, 1675.3, 1716.4, 1758.2, 1798.6, 1839.7, 1880.8, 1921.9, 1963.0]}, {"t": "你會怎麼做?", "s": 66.23, "ls": 2.64, "red": true, "x": 1223.1, "base": 1070.2, "xs": [1223.1, 1290.6, 1357.4, 1424.9, 1491.7, 1566.8]}], "tri": [1951.9, 1034.7, 1989.4, 1067.4]}, "q5": {"lines": [{"t": "蛋糕完成了即將放進櫥窗前，櫥窗外人來人往，可能會有人指著它、和旁邊的人討論……", "s": 41.41, "ls": 0.41, "red": false, "x": 259.8, "base": 262.6, "xs": [259.8, 301.6, 343.4, 385.2, 427.8, 468.9, 510.7, 552.5, 593.6, 636.2, 678.0, 719.8, 761.6, 803.4, 845.3, 887.8, 928.9, 970.7, 1012.5, 1053.7, 1095.5, 1138.0, 1179.8, 1221.7, 1263.5, 1305.3, 1347.1, 1388.9, 1431.5, 1473.3, 1514.4, 1556.9, 1598.0, 1639.9, 1681.7, 1723.5, 1765.3, 1807.1, 1849.0]}, {"t": "正式上架前你還有一次調整的機會，這時候你會怎麼做?", "s": 67.42, "ls": 1.21, "red": true, "x": 259.8, "base": 356.1, "xs": [259.8, 328.4, 396.3, 465.0, 532.9, 600.8, 669.5, 738.1, 806.7, 873.9, 941.9, 1010.5, 1078.4, 1147.8, 1216.4, 1284.3, 1352.3, 1420.2, 1488.8, 1556.8, 1625.4, 1693.3, 1762.0, 1829.9, 1905.6]}], "tri": [2027.3, 319.2, 2065.5, 351.8]}}};
 const QL=$('quizL');
 const SCORE={1:['CP','HC','RM','PR','MH'],2:['CM','PR','HC','RP','MH'],3:['PR','HM','RP','CH','MC'],4:['HC','PR','CH','MP','RM'],5:['MC','CR','HP','PM','RH']};
-const NEXT_R=[2086,1500,2360,1587], RES_BTN=[1170,1355,1995,1500], RES_BARS=[[1091,662,2083,905],[1091,1042,2083,1285]];
+const NEXT_R=[2086,1500,2360,1587], RES_BTN=[1172,1356,1996,1502], RES_BARS=[[1091,662,2083,905],[1091,1042,2083,1285]], RES_OPEN=[[1066,652,2092,908],[1066,1032,2092,1290]];
 let qCur=null,qAns=[],qBusy=false;
 const qimg=n=>{const i=new Image();i.decoding='async';i.draggable=false;i.alt='';i.className='qi';i.src='q/'+n+'.webp';return i};
 const qdiv=(cls,r)=>{const d=document.createElement('div');d.className=cls;if(r)d.style.cssText=`left:${r[0]}px;top:${r[1]}px;width:${r[2]-r[0]}px;height:${r[3]-r[1]}px`;return d};
@@ -1215,38 +1371,51 @@ function qType(el,q,done){
   return step;
 }
 function qDoor(){
-  const el=document.createElement('div');el.className='qscr';el.style.background='#f8f3ea';
-  const cake=(x,y,c)=>`<polygon points="${x},${y-9} ${x+24},${y-17} ${x+24},${y} ${x},${y}" fill="${c}" stroke="#6b4a2f" stroke-width="1.5"/><line x1="${x+1}" y1="${y-4}" x2="${x+23}" y2="${y-5}" stroke="#fff" stroke-width="1.5" opacity=".8"/>`;
-const svg=`<svg class="shop" id="shop" viewBox="0 0 400 440" xmlns="http://www.w3.org/2000/svg"><defs><filter id="wob"><feTurbulence baseFrequency=".03" numOctaves="2" seed="4"/><feDisplacementMap in="SourceGraphic" scale="2.5"/></filter><radialGradient id="glow"><stop offset="0" stop-color="#fff4c4"/><stop offset="1" stop-color="#f7c978"/></radialGradient></defs>
-<g filter="url(#wob)">
-<rect x="14" y="400" width="372" height="16" fill="#a89a8c"/>
-<rect x="40" y="150" width="320" height="250" fill="#e6d3bf"/>
-<rect x="40" y="96" width="320" height="56" fill="#f4ece0"/>
-<g stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".9"><path d="M40 114H360M40 134H360"/><path d="M90 96v18M170 96v18M250 96v18M330 96v18M60 114v20M130 114v20M210 114v20M290 114v20M350 114v20"/></g>
-<rect x="28" y="72" width="344" height="26" rx="3" fill="#d98a4e"/>
-${[0,1,2,3,4,5,6].map(i=>`<rect x="${42+i*47}" y="60" width="34" height="16" rx="6" fill="#d98a4e"/>`).join('')}
-<rect x="214" y="106" width="136" height="34" rx="17" fill="#6a74b0"/>
-<text x="282" y="129" text-anchor="middle" font-size="18" fill="#fff" font-family="serif" letter-spacing="3">櫥窗裡的你</text>
-<text x="282" y="156" text-anchor="middle" font-size="12" fill="#6a74b0" font-style="italic" font-family="serif">A piece of you</text>
-<rect x="46" y="238" width="20" height="14" rx="2" fill="#5fa77f"/><text x="56" y="249" text-anchor="middle" font-size="9" fill="#fff">21</text>
-<path d="M70 215A60 60 0 0 1 190 215Z" fill="#c97d3a"/><path d="M80 211A50 50 0 0 1 180 211Z" fill="#fbf0cf"/>
-<path d="M130 161V211M95 175L130 211L165 175M82 195L130 211L178 195" stroke="#c97d3a" stroke-width="3" fill="none"/>
-<rect x="70" y="212" width="120" height="188" fill="#c97d3a"/>
+  const el=document.createElement('div');el.className='qscr';el.style.background='#eceaf5 url(a/plaid.jpg) center/cover';
+  const L='#756cab',N='#44449a';
+  const cake=(x,y,c)=>`<path d="M${x} ${y}V${y-9}L${x+24} ${y-18}V${y}Z" fill="${c}" stroke="${L}" stroke-width="1.3" stroke-linejoin="round"/><path d="M${x} ${y-9}L${x+24} ${y-18}" stroke="#fff" stroke-width="2.2"/>`;
+  const scal=(x0,x1,y,w,c1,c2)=>{let o='';for(let x=x0,i=0;x<x1-1;x+=w,i++)o+=`<path d="M${x} 0V${y}A${w/2} ${w/2} 0 0 0 ${x+w} ${y}V0Z" fill="${i%2?c2:c1}" stroke="${L}" stroke-width="1"/>`;return o};
+  const check=(x0,y0,w,h,sz)=>{let o=`<rect x="${x0}" y="${y0}" width="${w}" height="${h}" fill="#fff"/>`;
+    for(let x=x0;x<x0+w;x+=sz*2)o+=`<rect x="${x}" y="${y0}" width="${sz}" height="${h}" fill="#b9c2e6" opacity=".55"/>`;
+    for(let y=y0;y<y0+h;y+=sz*2)o+=`<rect x="${x0}" y="${y}" width="${w}" height="${sz}" fill="#b9c2e6" opacity=".55"/>`;return o};
+const svg=`<svg class="shop" id="shop" viewBox="0 0 400 440" xmlns="http://www.w3.org/2000/svg"><defs>
+<radialGradient id="glow"><stop offset="0" stop-color="#fffdf2"/><stop offset="1" stop-color="#f4e7b8"/></radialGradient>
+<linearGradient id="win" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e9e6f6"/><stop offset="1" stop-color="#c9c3e6"/></linearGradient>
+<linearGradient id="wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fdfcf7"/><stop offset="1" stop-color="#f3f0f8"/></linearGradient>
+<clipPath id="gnd"><rect x="10" y="398" width="380" height="24" rx="3"/></clipPath>
+<filter id="sh" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#5d5a8a" flood-opacity=".22"/></filter></defs>
+<rect x="10" y="398" width="380" height="22" rx="3" fill="#d6d9ee" stroke="${L}" stroke-width="1"/>
+<g filter="url(#sh)">
+<rect x="38" y="92" width="324" height="308" fill="url(#wall)" stroke="${L}" stroke-width="1.4"/>
+<path d="M38 92H362" stroke="${L}" stroke-width="1.4"/>
+<g transform="translate(0 92)">${scal(38,362,40,27,'#a9b1d6','#cbc0d8')}</g>
+<rect x="30" y="80" width="340" height="16" rx="5" fill="#8f97cc" stroke="${L}" stroke-width="1.2"/>
+</g>
+<g transform="rotate(-2 282 154)">
+<path d="M206 140H358L350 154L358 168H206L214 154Z" fill="#dce9ef" stroke="#b5ccd6" stroke-width=".8"/>
+<text x="282" y="160" text-anchor="middle" font-size="15" fill="#3a3d36" font-family="GenSenRounded2 TW,sans-serif" font-weight="700" letter-spacing="2.5">櫥窗裡的你</text>
+</g>
+<text x="282" y="183" text-anchor="middle" font-size="10.5" fill="${L}" font-style="italic" font-family="Cormorant Garamond,Georgia,serif" letter-spacing=".6">A piece of you</text>
+<rect x="44" y="238" width="22" height="15" rx="4" fill="#9fd0c5" stroke="${L}" stroke-width="1"/><text x="55" y="249.5" text-anchor="middle" font-size="9" font-weight="700" fill="#fff" font-family="GenSenRounded2 TW,sans-serif">10</text>
+<path d="M70 215A60 60 0 0 1 190 215Z" fill="${N}"/><path d="M79 211A51 51 0 0 1 181 211Z" fill="#f7f1d6"/>
+<path d="M130 160V211M96 174L130 211L164 174M82 194L130 211L178 194" stroke="#8f97cc" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+<rect x="70" y="212" width="120" height="188" fill="${N}"/>
 <rect x="80" y="222" width="100" height="178" fill="url(#glow)"/>
-<ellipse cx="130" cy="372" rx="30" ry="9" fill="#2f4a8a"/><rect x="127" y="372" width="6" height="28" fill="#2f4a8a"/><polygon points="116,356 138,349 138,366 116,366" fill="#e5566d" stroke="#6b4a2f" stroke-width="1.5"/>
-<g id="dr" class="doorbtn"><rect x="66" y="150" width="128" height="250" fill="#fff" fill-opacity="0"/><g class="dl"><rect x="80" y="222" width="50" height="178" fill="#b9672e"/><rect x="87" y="230" width="36" height="76" rx="3" fill="#fdf3d6" opacity=".85"/><path d="M87 380V330Q105 312 123 330V380Z" fill="#8d4f24"/><circle cx="123" cy="318" r="3.5" fill="#6b4a2f"/></g>
-<g class="dr2"><rect x="130" y="222" width="50" height="178" fill="#c0713a"/><rect x="137" y="230" width="36" height="76" rx="3" fill="#fdf3d6" opacity=".85"/><path d="M137 380V330Q155 312 173 330V380Z" fill="#8d4f24"/><circle cx="137" cy="318" r="3.5" fill="#6b4a2f"/></g></g>
-<rect x="212" y="188" width="136" height="124" fill="#c97d3a"/><rect x="221" y="197" width="118" height="106" fill="#fdf3d6"/>
-<path d="M232 197V215M262 197V215M292 197V215M322 197V215" stroke="#e7cfa3" stroke-width="3"/>
-<rect x="221" y="244" width="118" height="5" fill="#b9672e"/><rect x="221" y="291" width="118" height="5" fill="#b9672e"/>
-${cake(230,244,'#e5566d')}${cake(268,244,'#8bb55a')}${cake(304,244,'#f2b84b')}${cake(230,291,'#f08a24')}${cake(268,291,'#6b4026')}${cake(304,291,'#fff3d1')}
-<rect x="206" y="312" width="148" height="8" rx="2" fill="#b9672e"/>
-<path d="M36 400Q30 372 42 364H70Q80 372 74 400Z" fill="#b9a58f"/><circle cx="56" cy="346" r="22" fill="#7fae6b"/><circle cx="40" cy="358" r="14" fill="#6f9f5e"/><circle cx="72" cy="356" r="13" fill="#6f9f5e"/>
-<circle cx="50" cy="340" r="4" fill="#f4a3b5"/><circle cx="64" cy="350" r="4" fill="#f4a3b5"/><circle cx="44" cy="362" r="3.5" fill="#f4a3b5"/>
-<g stroke="#8a5a3c" stroke-width="5" stroke-linecap="round"><path d="M246 400L252 372M284 400L278 372M265 372V400"/></g><rect x="240" y="366" width="50" height="9" rx="4" fill="#c97d3a"/>
-<path d="M250 366Q248 346 256 344H276Q284 346 282 366Z" fill="#9aa5cf"/><circle cx="260" cy="338" r="7" fill="#f4a3b5"/><circle cx="272" cy="336" r="7" fill="#f7d36b"/><circle cx="266" cy="330" r="6" fill="#f4a3b5"/>
-<path d="M308 400Q306 372 320 366H358Q372 372 370 400Z" fill="#e8c27a" stroke="#8a5a3c" stroke-width="3"/><path d="M314 384H364M322 372L330 400M340 370V400M356 372L350 400" stroke="#8a5a3c" stroke-width="2"/>
-</g></svg>`;
+<g id="dr" class="doorbtn"><rect x="66" y="150" width="128" height="250" fill="#fff" fill-opacity="0"/>
+<g class="dl"><rect x="80" y="222" width="50" height="178" fill="#a3a9d8" stroke="${L}" stroke-width="1"/><rect x="87" y="230" width="36" height="76" rx="4" fill="#fbf7e6"/><path d="M105 230V306M87 268H123" stroke="#c9c3e6" stroke-width="1.6"/><rect x="88" y="324" width="34" height="62" rx="4" fill="#8f97cc"/><circle cx="123" cy="316" r="3.2" fill="#f2cf73"/></g>
+<g class="dr2"><rect x="130" y="222" width="50" height="178" fill="#b2b7df" stroke="${L}" stroke-width="1"/><rect x="137" y="230" width="36" height="76" rx="4" fill="#fbf7e6"/><path d="M155 230V306M137 268H173" stroke="#c9c3e6" stroke-width="1.6"/><rect x="138" y="324" width="34" height="62" rx="4" fill="#98a0d2"/><circle cx="137" cy="316" r="3.2" fill="#f2cf73"/></g></g>
+<rect x="210" y="196" width="140" height="122" rx="4" fill="${N}"/><rect x="219" y="205" width="122" height="104" rx="2" fill="url(#win)"/>
+<g transform="translate(219 205)">${scal(0,122,9,15.25,'#fdfaf0','#e9b9c4').replace(/stroke="[^"]+" stroke-width="1"/g,'')}</g>
+<rect x="219" y="248" width="122" height="4" fill="#fff"/><rect x="219" y="295" width="122" height="4" fill="#fff"/>
+${cake(232,248,'#f2b6c2')}${cake(268,248,'#bfe0cf')}${cake(304,248,'#f6dc95')}${cake(232,295,'#c9b7e6')}${cake(268,295,'#f6c3a0')}${cake(304,295,'#fdf6e3')}
+<rect x="204" y="316" width="152" height="8" rx="3" fill="#8f97cc" stroke="${L}" stroke-width="1"/>
+<path d="M38 400Q33 374 43 366H71Q81 374 76 400Z" fill="#cbc0d8" stroke="${L}" stroke-width="1.2"/><path d="M41 375H74" stroke="#fff" stroke-width="2"/>
+<circle cx="57" cy="347" r="21" fill="#a9d3bf"/><circle cx="41" cy="358" r="13" fill="#93c4ad"/><circle cx="73" cy="357" r="12" fill="#93c4ad"/>
+<circle cx="51" cy="341" r="3.8" fill="#f2b6c2"/><circle cx="65" cy="351" r="3.8" fill="#fdf6e3"/><circle cx="45" cy="362" r="3.2" fill="#f2b6c2"/><circle cx="69" cy="339" r="3" fill="#f6dc95"/>
+<g stroke="${L}" stroke-width="4" stroke-linecap="round"><path d="M248 400L253 374M283 400L278 374M265.5 374V400"/></g><rect x="241" y="368" width="49" height="8" rx="4" fill="#8f97cc"/>
+<path d="M251 368Q249 349 257 347H275Q283 349 281 368Z" fill="#dce9ef" stroke="${L}" stroke-width="1"/><circle cx="260" cy="340" r="6.5" fill="#f2b6c2"/><circle cx="272" cy="339" r="6.5" fill="#f6dc95"/><circle cx="266" cy="332" r="5.5" fill="#c9b7e6"/>
+<g stroke="${L}" stroke-width="2.4" stroke-linecap="round"><path d="M322 400L332 352M356 400L346 352"/></g><rect x="318" y="350" width="42" height="36" rx="4" fill="#fdfbe9" stroke="${L}" stroke-width="1.4"/><text x="339" y="366" text-anchor="middle" font-size="8.5" font-weight="700" fill="${N}" font-family="GenSenRounded2 TW,sans-serif" letter-spacing="1">OPEN</text><path d="M326 374H352" stroke="#f2b6c2" stroke-width="2.4" stroke-linecap="round"/><circle cx="339" cy="380" r="1.8" fill="#bfe0cf"/>
+</svg>`;
 
 
   el.innerHTML=`<div class="shopw">${svg}</div><div class="doorhint">點按大門，推開走進去</div>`;
@@ -1293,10 +1462,12 @@ function qResult(){
   const sc={C:0,H:0,R:0,P:0,M:0};qAns.forEach((a,i)=>{const s=SCORE[i+1][a];sc[s[0]]+=2;sc[s[1]]+=1});
   let best='H';[...'HCRPM'].forEach(t=>{if(sc[t]>sc[best])best=t});quizType=best;
   const el=document.createElement('div');el.className='qscr';
-  const a=qimg('r_'+best+'1'),b=qimg('r_'+best+'2');a.classList.add('on');el.appendChild(a);el.appendChild(b);
-  let open=false;RES_BARS.forEach(r=>{const h=qdiv('qhit',r);h.onclick=()=>{open=!open;a.classList.toggle('on',!open);b.classList.toggle('on',open)};el.appendChild(h)});
+  const a=qimg('r_'+best+'1');a.classList.add('on');el.appendChild(a);
+  const opened=RES_OPEN.map(r=>{const o=qimg('r_'+best+'2');o.classList.add('qx');o.style.clipPath=`inset(${r[1]}px ${2360-r[2]}px ${1655-r[3]}px ${r[0]}px)`;el.appendChild(o);return o});
+  const sh=qdiv('qshine',RES_BTN);el.appendChild(sh);
+  RES_BARS.forEach((r,k)=>{const h=qdiv('qhit',r);h.onclick=()=>opened[k].classList.toggle('on');el.appendChild(h)});
   const go=qdiv('qhit',RES_BTN);go.onclick=()=>{if(qBusy)return;qBusy=true;qFinish()};el.appendChild(go);
-  qShow(el,[a,b],500);
+  qShow(el,[a,...opened],500);
 }
 function qFinish(){
   QL.animate([{opacity:1},{opacity:0}],{duration:800,easing:'ease-in-out',fill:'forwards'}).finished.then(()=>{
@@ -1325,5 +1496,4 @@ Promise.all(PRE.map(f=>new Promise(r=>{const im=new Image();im.onload=()=>{if(f=
   const ld=$('loader');ld.style.opacity=0;setTimeout(()=>ld.remove(),500);
 });
 </script>
-
 </body></html>
