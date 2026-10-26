@@ -18,6 +18,7 @@
   color-scheme:light;
 }
 html,body{height:100%;margin:0;overflow:hidden;background:var(--ground);overscroll-behavior:none}
+html{min-height:100lvh}
 body{font-family:var(--sans);-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent;touch-action:none;
   padding-left:max(0px,env(safe-area-inset-left,0px));padding-right:max(0px,env(safe-area-inset-right,0px))}
 #vp{position:fixed;inset:0;overflow:hidden;background:var(--ground)}
@@ -423,23 +424,26 @@ const toHex=rgb=>'#'+rgb.map(v=>v.toString(16).padStart(2,'0')).join('');
 const stage=document.getElementById('stage'), vp=document.getElementById('vp');
 let SC=1, OX=0, OY=0;
 function fit(){
+  // home-screen app / full screen on iPad: Safari can report a viewport that is shorter than the screen (the strip by the
+  // home bar was left grey and the bottom of the stage was cut) — size the stage area to the whole screen instead
+  const full=navigator.standalone===true||!!(document.fullscreenElement||document.webkitFullscreenElement)||
+    (window.matchMedia&&matchMedia('(display-mode: standalone)').matches&&navigator.maxTouchPoints>1);
+  if(full){vp.style.right=vp.style.bottom='auto';vp.style.width='100vw';
+    vp.style.height=(window.CSS&&CSS.supports('height','100lvh'))?'100lvh':'100vh';}
+  else vp.style.width=vp.style.height=vp.style.bottom=vp.style.right='';
   let w=vp.clientWidth,h=vp.clientHeight;
-  // home-screen web app on iPad: the browser can report a viewport that leaves out the status bar even though the page
-  // is drawn underneath it, which left grey strips around the stage — use the whole screen instead
-  const standalone=navigator.standalone===true||(navigator.maxTouchPoints>1&&window.matchMedia&&matchMedia('(display-mode: standalone)').matches&&window.top===window);  // iPad home-screen app only
-  if(standalone&&screen&&screen.width){const land=innerWidth>=innerHeight,sw=land?Math.max(screen.width,screen.height):Math.min(screen.width,screen.height),sh=land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height);
-    if(Math.abs(sw-w)<sw*.15){w=Math.max(w,sw);h=Math.max(h,sh)}
-    vp.style.width=w+'px';vp.style.height=h+'px';vp.style.bottom='auto';vp.style.right='auto';}
-  else{vp.style.width=vp.style.height=vp.style.bottom=vp.style.right='';w=vp.clientWidth;h=vp.clientHeight}
+  if(full&&screen&&screen.width){const land=w>=h,sw=land?Math.max(screen.width,screen.height):Math.min(screen.width,screen.height),sh=land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height);
+    if(Math.abs(sw-w)<sw*.05&&sh>h&&sh-h<sh*.12){h=sh;vp.style.height=h+'px'}}
   const a=w/h, d=2360/1655;
   // fill the screen when its shape is close to the design (a sliver is cropped), otherwise show it all
   SC = Math.abs(a-d)/d < .06 ? Math.max(w/2360,h/1655) : Math.min(w/2360,h/1655);
   OX=(w-2360*SC)/2; OY=(h-1655*SC)/2;
+  if(1655*SC>h+1)OY=Math.max(h-1655*SC,-40*SC*2.5);   // when a sliver must go, take it from the top (awning) so the bottom bar and buttons stay whole
   // receipt opened on a phone held upright: zoom in on the receipt itself
   if(/^#r=/.test(location.hash)&&a<1.1){SC=Math.min(w/1420,h/1655);OX=w/2-1180*SC;OY=(h-1655*SC)/2}
   stage.style.transform=`translate(${OX}px,${OY}px) scale(${SC})`;
 }
-addEventListener('resize',fit);addEventListener('orientationchange',()=>setTimeout(fit,300));addEventListener('pageshow',fit); fit();setTimeout(fit,500);
+addEventListener('resize',fit);addEventListener('orientationchange',()=>setTimeout(fit,300));addEventListener('pageshow',fit); fit();[300,1000,2500].forEach(t=>setTimeout(fit,t));if(window.visualViewport)visualViewport.addEventListener('resize',fit);
 [vp,stage].forEach(el=>el.addEventListener('scroll',()=>{el.scrollTop=0;el.scrollLeft=0}));
 function toStage(e){const r=stage.getBoundingClientRect();return {x:(e.clientX-r.left)/SC,y:(e.clientY-r.top)/SC};}
 const $=id=>document.getElementById(id);
@@ -937,21 +941,31 @@ function stopMarquee(){clearInterval(mqTimer);clearTimeout(mqHide);clearTimeout(
 swipe($('mHandle'),()=>{clearTimeout(mqHide);hideMarquee()},null,null);
 
 /* ---------- sound ---------- */
-const BGM=new Audio('a/bgm.mp3');BGM.loop=true;BGM.preload='auto';BGM.volume=.4;
+// (a receipt link opened on a phone never loads the 4 MB music file)
+const BGM=/^#r=/.test(location.hash)?null:new Audio('a/bgm.mp3');if(BGM){BGM.loop=true;BGM.preload='auto';BGM.volume=.4}
 let actx=null,clickBuf=null;
+// in Safari (not the home-screen app) the address bar takes space: on the first tap go full screen so the stage fills the iPad
+let fsAsked=false;
+function goFull(){
+  if(fsAsked||RECEIPT||window.top!==window||navigator.standalone===true)return;fsAsked=true;
+  const el=document.documentElement,rq=el.requestFullscreen||el.webkitRequestFullscreen;
+  if(rq&&!(document.fullscreenElement||document.webkitFullscreenElement)){try{const p=rq.call(el);if(p&&p.catch)p.catch(()=>{})}catch(e){}}
+}
+['fullscreenchange','webkitfullscreenchange'].forEach(ev=>document.addEventListener(ev,()=>{fit();setTimeout(fit,350)}));
+try{if(navigator.audioSession)navigator.audioSession.type='playback'}catch(e){}   // Web Audio would otherwise be muted by the iPad's silent mode
 function unlockAudio(){
-  if(RECEIPT)return;
+  if(RECEIPT)return;goFull();
   if(!actx){try{actx=new (window.AudioContext||window.webkitAudioContext)();
     fetch('a/click.mp3').then(r=>r.arrayBuffer()).then(b=>new Promise((ok,no)=>actx.decodeAudioData(b,ok,no))).then(d=>clickBuf=d).catch(()=>{})}catch(e){}}
   if(actx&&actx.state==='suspended')actx.resume().catch(()=>{});
-  if(BGM.paused)BGM.play().catch(()=>{});
+  if(BGM&&BGM.paused)BGM.play().catch(()=>{});
 }
 ['pointerdown','touchend','click'].forEach(ev=>addEventListener(ev,unlockAudio,{capture:true,passive:true}));
-function sfx(){if(!actx||!clickBuf)return;try{const s=actx.createBufferSource(),g=actx.createGain();g.gain.value=.3;s.buffer=clickBuf;s.connect(g);g.connect(actx.destination);s.start()}catch(e){}}
+function sfx(){if(!actx||!clickBuf)return;try{const s=actx.createBufferSource(),g=actx.createGain();g.gain.value=.5;s.buffer=clickBuf;s.connect(g);g.connect(actx.destination);s.start()}catch(e){}}
 // every tap during the personality quiz, and every pick from the decorating menu
-$('quizL').addEventListener('pointerdown',()=>sfx(),true);
-menuBar.addEventListener('pointerdown',e=>{if(e.target.closest('.tab'))sfx()});
-$('track').addEventListener('pointerdown',e=>{if(e.target.closest('.item'))sfx()});
+// one listener for the whole page: every tap in the quiz, and every button / choice while decorating and in the review
+document.addEventListener('pointerdown',e=>{if(RECEIPT)return;const t=e.target;
+  if(t.closest('#quizL')||t.closest('button,.qhit,.doorbtn,.item,.tab,.set,.mode,.pg,.done,.hitb,.placed')||(t.closest('#tapL')&&arm&&arm.kind!=='cream'))sfx()},true);
 
 /* ---------- usage tracking (for the review) ---------- */
 // idle time: gaps of more than 5 s between two touches count as blank time
@@ -1229,7 +1243,9 @@ const TYPES={
      desc:'站在材料區時你多半會拿起大家最熟悉、最不會踩雷的經典風味。比起讓自己的蛋糕成為櫥窗裡最搶眼的焦點，你更在乎這份心意端出去時，身邊的人吃得開不開心。你做選擇的出發點往往不是「我想要什麼」，而是「大家需要什麼」。'},
 };
 const F='"GenSenRounded2 TW","PingFang TC",sans-serif';
-function loadImg(src){return new Promise(r=>{const im=new Image();im.onload=()=>r(im);im.onerror=()=>r(null);im.src=src})}
+// never wait forever for a picture (a stalled download on a phone used to freeze the receipt on the loading screen)
+const within=(p,ms,v)=>Promise.race([p,new Promise(r=>setTimeout(()=>r(v),ms))]);
+function loadImg(src){return within(new Promise(r=>{const im=new Image();im.onload=()=>r(im);im.onerror=()=>r(null);im.src=src}),8000,null)}
 const URLC={};
 async function asDataURL(href){
   if(/^data:/.test(href))return href;if(URLC[href])return URLC[href];
@@ -1276,7 +1292,7 @@ function nums(x,parts,cx,base,d,u,color){ // digits + units centred on cx
 let rcvBlob=null,rcvReady=null,shareURL='';
 function buildReceipt(){return rcvReady=(async()=>{
   const R=REC,T=TYPES[R.T]||TYPES.R;
-  try{await Promise.all(['400','700'].map(w=>document.fonts.load(`${w} 40px "GenSenRounded2 TW"`,'你')))}catch(e){}
+  try{await within(Promise.all(['400','700'].map(w=>document.fonts.load(`${w} 40px "GenSenRounded2 TW"`,'你'))),RECEIPT?2000:4000)}catch(e){}
   const [bg,cake,...circ]=await Promise.all([loadImg('a/rv/bg7.jpg'),cakeCanvas(),...DEC.map(k=>loadImg(`a/rv/b7_${k}.webp`))]);
   const c=$('rcv'),x=c.getContext('2d');x.clearRect(0,0,2360,1655);
   if(bg)x.drawImage(bg,0,0,2360,1655);
@@ -1325,7 +1341,8 @@ async function pack(obj){const txt=JSON.stringify(obj,(k,v)=>typeof v==='number'
 async function unpack(s){const bytes=unb64u(s.slice(1));let txt;
   if(s[0]==='z'){const ds=new DecompressionStream('deflate-raw');txt=await new Response(new Blob([bytes]).stream().pipeThrough(ds)).text()}
   else txt=new TextDecoder().decode(bytes);return JSON.parse(txt)}
-const ARTIFACT_URL='https://claude.ai/artifact/LQA8Jo24934YnR1hFnDZsg';
+// receipt links always point at the public GitHub site, which opens without any login
+const ARTIFACT_URL='https://chenty05.github.io/ver.261024_web/';
 function baseURL(){const h=location.hostname;
   if(/^https?:$/.test(location.protocol)&&h&&!/claude|anthropic|localhost|127\.0\.0\.1/.test(h))return location.origin+location.pathname;
   return ARTIFACT_URL}
@@ -1355,7 +1372,7 @@ async function hostedImage(){
     const res=await a.upload(await receiptBlob());imgURL=new URL(res.url,location.href).href;return imgURL}
   catch(e){console.warn('upload',e);return null}
 }
-async function linkToShare(){return (await hostedImage())||shareURL}
+async function linkToShare(){await rcvReady;return shareURL}
 $('bDown').onclick=async()=>{
   if(RECEIPT){saveImage();return}
   const box=$('qrBox');box.innerHTML='<div style="font-size:40px;color:#9a97a3">收據產生中…</div>';$('qrM').classList.add('on');
@@ -1402,13 +1419,13 @@ function restart(){
 
 const RECEIPT=/^#r=/.test(location.hash);
 async function openReceipt(){
-  let d=null;try{d=await unpack(decodeURIComponent(location.hash.slice(3)))}catch(e){}
+  let d=null;try{d=await RDATA}catch(e){}
   if(!d){$('loader').textContent='這個收據連結無法開啟';return false}
   state=Object.assign(fresh(),d.s);REC={T:d.T,a:d.a,i:d.i,u:d.u,m:d.m,p:d.p};
   shipping=true;quizDone=true;render();$('ui').classList.add('off');
   await buildReceipt();shareURL=location.href;
   $('rv').hidden=false;rvShow(7);
-  try{const b=await receiptBlob();$('saveImg').src=URL.createObjectURL(b);$('saveImg').style.width='1360px';$('saveM').classList.add('on')}catch(e){}
+  try{const b=await receiptBlob('image/jpeg');$('saveImg').src=URL.createObjectURL(b);$('saveImg').style.width='1360px';$('saveM').classList.add('on')}catch(e){}
   return true;
 }
 /* ---------- personality quiz (built in, same stage) ---------- */
@@ -1590,10 +1607,27 @@ Object.values(META).forEach(l=>Array.isArray(l)&&l.forEach(it=>{if(it.id){PRE.pu
 for(let i=0;i<8;i++)PRE.push(`bead_${i}.png`);
 META.cookie.forEach(c=>(c.pieces||[]).forEach(p=>PRE.push(p[0]+'.png')));
 let n=0;
-Promise.all(PRE.map(f=>new Promise(r=>{const im=new Image();im.onload=()=>{if(f==='drip_src.png')dripSrc=im;IMG[f.replace(/\.png$/,'')]=im;r()};im.onerror=r;im.src='a/'+f;}))).then(async()=>{
-  try{await document.fonts.ready}catch(e){}
-  if(RECEIPT){await openReceipt();}else{render();ready=true;if(quizDone)beginEditor();}
-  const ld=$('loader');ld.style.opacity=0;setTimeout(()=>ld.remove(),500);
+// a receipt link (opened on a phone) only needs the pictures that are on the cake
+// a receipt link only downloads the handful of pictures that are actually on that cake, so it opens in a few seconds
+const RDATA=RECEIPT?unpack(decodeURIComponent(location.hash.slice(3))).catch(()=>null):null;
+const preload=f=>new Promise(r=>{const im=new Image();im.onload=()=>{if(f==='drip_src.png')dripSrc=im;IMG[f.replace(/\.png$/,'')]=im;r()};im.onerror=r;im.src='a/'+f;});
+const hideLoader=()=>{const ld=$('loader');if(!ld)return;ld.style.opacity=0;setTimeout(()=>ld.remove(),500)};
+if(RECEIPT){
+  // receipt link on a phone: fetch only what is on this cake, never wait on fonts or music, and show something within 5 s
+  setTimeout(()=>{if(REC){$('rv').hidden=false;if(rvIdx!==7)rvShow(7)}hideLoader()},5000);
+  RDATA.then(async d=>{
+    const need=new Set();
+    if(d){const st=d.s||{};if(st.drizzle)need.add('drip_src.png');if(st.fingers&&Object.values(st.fingers).some(Boolean))need.add('finger.png');
+      ['top','mid','bot'].forEach(r=>Object.values((st.cream||{})[r]||{}).forEach(id=>id!=null&&need.add(`bead_${id}.png`)));
+      (st.pipes||[]).forEach(p=>need.add(`bead_${p.id}.png`));(st.items||[]).forEach(it=>need.add(it.src+'.png'))}
+    await within(Promise.all([...need].map(preload)),3500);
+    try{await within(openReceipt(),15000)}catch(e){console.warn(e)}
+    hideLoader();
+  });
+}else Promise.all(PRE.map(f=>within(preload(f),15000))).then(async()=>{
+  try{await within(document.fonts.ready,4000)}catch(e){}
+  render();ready=true;if(quizDone)beginEditor();
+  hideLoader();
 });
 </script>
 </body></html>
