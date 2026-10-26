@@ -215,12 +215,26 @@ button:focus-visible{outline:4px solid var(--navy);outline-offset:4px;border-rad
 .qtri.on{opacity:1;animation:qtb 1s ease-in-out infinite}
 @keyframes qtb{50%{transform:translateY(9px)}}
 .qhit{position:absolute;cursor:pointer}
+/* passers-by walking past outside the shop window (question 5) */
+.walkers{position:absolute;inset:0;pointer-events:none;overflow:hidden;-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%222360%22%20height%3D%221655%22%20viewBox%3D%220%200%202360%201655%22%3E%3Cdefs%3E%3Cmask%20id%3D%22m%22%3E%3Crect%20x%3D%22340%22%20y%3D%22288%22%20width%3D%221680%22%20height%3D%221070%22%20fill%3D%22%23fff%22/%3E%3Cg%20fill%3D%22%23000%22%3E%3Crect%20x%3D%22790%22%20y%3D%22700%22%20width%3D%22825%22%20height%3D%22560%22/%3E%3Cellipse%20cx%3D%221202%22%20cy%3D%22740%22%20rx%3D%22415%22%20ry%3D%22105%22/%3E%3Ccircle%20cx%3D%221205%22%20cy%3D%22700%22%20r%3D%22145%22/%3E%3Cellipse%20cx%3D%221205%22%20cy%3D%221255%22%20rx%3D%22570%22%20ry%3D%22180%22/%3E%3C/g%3E%3C/mask%3E%3C/defs%3E%3Crect%20width%3D%222360%22%20height%3D%221655%22%20fill%3D%22%23000%22%20mask%3D%22url%28%23m%29%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%222360%22%20height%3D%221655%22%20viewBox%3D%220%200%202360%201655%22%3E%3Cdefs%3E%3Cmask%20id%3D%22m%22%3E%3Crect%20x%3D%22340%22%20y%3D%22288%22%20width%3D%221680%22%20height%3D%221070%22%20fill%3D%22%23fff%22/%3E%3Cg%20fill%3D%22%23000%22%3E%3Crect%20x%3D%22790%22%20y%3D%22700%22%20width%3D%22825%22%20height%3D%22560%22/%3E%3Cellipse%20cx%3D%221202%22%20cy%3D%22740%22%20rx%3D%22415%22%20ry%3D%22105%22/%3E%3Ccircle%20cx%3D%221205%22%20cy%3D%22700%22%20r%3D%22145%22/%3E%3Cellipse%20cx%3D%221205%22%20cy%3D%221255%22%20rx%3D%22570%22%20ry%3D%22180%22/%3E%3C/g%3E%3C/mask%3E%3C/defs%3E%3Crect%20width%3D%222360%22%20height%3D%221655%22%20fill%3D%22%23000%22%20mask%3D%22url%28%23m%29%22/%3E%3C/svg%3E");-webkit-mask-size:100% 100%;mask-size:100% 100%}
+.wk{position:absolute;bottom:300px;left:0;filter:blur(1.6px);opacity:0}
+.wk svg{display:block;overflow:visible}
+.wk .bob{animation:wbob .55s ease-in-out infinite alternate}
+@keyframes wbob{to{transform:translateY(-14px)}}
+.wk .lg{transform-box:fill-box;transform-origin:50% 0;animation:wleg .55s ease-in-out infinite alternate}
+.wk .lg2{animation-direction:alternate-reverse}
+.wk .ar{transform-box:fill-box;transform-origin:50% 0;animation:wleg .55s ease-in-out infinite alternate-reverse}
+.wk .ar2{animation-direction:alternate}
+@keyframes wleg{from{transform:rotate(-17deg)}to{transform:rotate(17deg)}}
 .qglow{position:absolute;inset:0;opacity:0;pointer-events:none;background:radial-gradient(ellipse 38% 46% at 50% 58%,rgba(255,250,215,.55),rgba(255,250,215,0) 70%);mix-blend-mode:screen}
 .shopw{position:absolute;inset:0}
 .shop{display:block;width:100%;height:100%;overflow:visible}
 .doorbtn{cursor:pointer}
+#drGlow{opacity:0;animation:dglow 1.6s ease-in-out infinite}
+@keyframes dglow{50%{opacity:.95}}
+.shop.open #drGlow{animation:none;opacity:0;transition:opacity .4s}
 #dr{animation:dpulse 1.6s ease-in-out infinite}
-@keyframes dpulse{50%{filter:drop-shadow(0 0 7px #fff7cf) drop-shadow(0 0 3px #fff) brightness(1.06)}}
+@keyframes dpulse{0%,100%{filter:drop-shadow(0 0 0 rgba(255,214,107,0))}50%{filter:drop-shadow(0 0 10px #ffd66b) drop-shadow(0 0 4px #ffe9a8) brightness(1.12)}}
 .shop.open #dr{animation:none}
 .shop .dl,.shop .dr2{transition:transform 1.3s cubic-bezier(.6,0,.3,1);transform-box:fill-box}
 .shop .dl{transform-origin:left center}.shop .dr2{transform-origin:right center}
@@ -409,14 +423,23 @@ const toHex=rgb=>'#'+rgb.map(v=>v.toString(16).padStart(2,'0')).join('');
 const stage=document.getElementById('stage'), vp=document.getElementById('vp');
 let SC=1, OX=0, OY=0;
 function fit(){
-  const w=vp.clientWidth,h=vp.clientHeight, a=w/h, d=2360/1655;
-  SC = Math.abs(a-d)/d < .025 ? Math.max(w/2360,h/1655) : Math.min(w/2360,h/1655);
+  let w=vp.clientWidth,h=vp.clientHeight;
+  // home-screen web app on iPad: the browser can report a viewport that leaves out the status bar even though the page
+  // is drawn underneath it, which left grey strips around the stage — use the whole screen instead
+  const standalone=navigator.standalone===true||(navigator.maxTouchPoints>1&&window.matchMedia&&matchMedia('(display-mode: standalone)').matches&&window.top===window);  // iPad home-screen app only
+  if(standalone&&screen&&screen.width){const land=innerWidth>=innerHeight,sw=land?Math.max(screen.width,screen.height):Math.min(screen.width,screen.height),sh=land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height);
+    if(Math.abs(sw-w)<sw*.15){w=Math.max(w,sw);h=Math.max(h,sh)}
+    vp.style.width=w+'px';vp.style.height=h+'px';vp.style.bottom='auto';vp.style.right='auto';}
+  else{vp.style.width=vp.style.height=vp.style.bottom=vp.style.right='';w=vp.clientWidth;h=vp.clientHeight}
+  const a=w/h, d=2360/1655;
+  // fill the screen when its shape is close to the design (a sliver is cropped), otherwise show it all
+  SC = Math.abs(a-d)/d < .06 ? Math.max(w/2360,h/1655) : Math.min(w/2360,h/1655);
   OX=(w-2360*SC)/2; OY=(h-1655*SC)/2;
   // receipt opened on a phone held upright: zoom in on the receipt itself
   if(/^#r=/.test(location.hash)&&a<1.1){SC=Math.min(w/1420,h/1655);OX=w/2-1180*SC;OY=(h-1655*SC)/2}
   stage.style.transform=`translate(${OX}px,${OY}px) scale(${SC})`;
 }
-addEventListener('resize',fit); fit();
+addEventListener('resize',fit);addEventListener('orientationchange',()=>setTimeout(fit,300));addEventListener('pageshow',fit); fit();setTimeout(fit,500);
 [vp,stage].forEach(el=>el.addEventListener('scroll',()=>{el.scrollTop=0;el.scrollLeft=0}));
 function toStage(e){const r=stage.getBoundingClientRect();return {x:(e.clientX-r.left)/SC,y:(e.clientY-r.top)/SC};}
 const $=id=>document.getElementById(id);
@@ -487,12 +510,27 @@ function beadsOf(rows){
       all.push({x:x-w/2,y:y+oy,w,h,id,z:y})})}
   return all.sort((a,b)=>a.z-b.z);
 }
+/* the cream is drawn by keeping the same picture elements and only changing what differs:
+   re-creating them on every finger move made iPad flash the whole cake */
+function setA(el,k,v){v=String(v);if(el.getAttribute(k)!==v)el.setAttribute(k,v)}
+const SLOTEL={};
+function slotEls(g,rows){const key=rows.join();if(SLOTEL[key])return SLOTEL[key];
+  const all=[];rows.forEach(row=>rowPoints(row).forEach(([x,y],i)=>all.push({row,i,x,y})));all.sort((a,b)=>a.y-b.y);
+  g.innerHTML='';all.forEach(o=>{o.el=document.createElementNS(NS,'image');o.el.setAttribute('visibility','hidden');g.appendChild(o.el)});
+  return SLOTEL[key]=all}
+function syncSlots(g,rows){
+  for(const o of slotEls(g,rows)){const id=state.cream[o.row][o.i],el=o.el;
+    if(id==null){setA(el,'visibility','hidden');continue}
+    const [bw,bh]=META.bead[id],w=BEAD_W,h=BEAD_W*bh/bw,oy=o.row==='bot'?-h*.62:o.row==='mid'?-h*.5:-h*.55;
+    setA(el,'href',`a/bead_${id}.png`);setA(el,'x',o.x-w/2);setA(el,'y',o.y+oy);setA(el,'width',w);setA(el,'height',h);setA(el,'visibility','visible')}
+}
 function paintCream(){
-  const back=$('creamG'),front=$('creamF'),pipes=$('pipeG');back.innerHTML='';front.innerHTML='';pipes.innerHTML='';
-  beadsOf(['top','mid']).forEach(b=>svgImg(back,`a/bead_${b.id}.png`,b.x,b.y,b.w,b.h));
-  beadsOf(['bot']).forEach(b=>svgImg(front,`a/bead_${b.id}.png`,b.x,b.y,b.w,b.h));
-  for(const p of state.pipes){const [bw,bh]=META.bead[p.id],w=BEAD_W,h=BEAD_W*bh/bw;
-    for(const [x,y] of p.pts)svgImg(pipes,`a/bead_${p.id}.png`,x-w/2,y-h*.6,w,h)}
+  syncSlots($('creamG'),['top','mid']);syncSlots($('creamF'),['bot']);
+  const pipes=$('pipeG'),want=[];
+  for(const p of state.pipes){const [bw,bh]=META.bead[p.id],w=BEAD_W,h=BEAD_W*bh/bw;for(const [x,y] of p.pts)want.push([`a/bead_${p.id}.png`,x-w/2,y-h*.6,w,h])}
+  while(pipes.childNodes.length>want.length)pipes.lastChild.remove();
+  want.forEach((v,k)=>{let el=pipes.childNodes[k];if(!el){el=document.createElementNS(NS,'image');pipes.appendChild(el)}
+    setA(el,'href',v[0]);setA(el,'x',v[1]);setA(el,'y',v[2]);setA(el,'width',v[3]);setA(el,'height',v[4])});
 }
 /* ladyfingers standing side by side around the front of the cake */
 const FINGER_H=(CK.by-CK.ty)+30, FINGER_W=FINGER_H*137/363;
@@ -502,10 +540,12 @@ const SLOTS=(()=>{const out=[],wAt=x=>FINGER_W*Math.max(.28,Math.sqrt(Math.max(0
   xs.forEach(x=>{const t=(x-CK.cx)/CK.rx,sn=Math.sqrt(Math.max(0,1-t*t)),w=wAt(x),bottom=CK.by+CK.ry*sn+8;
     out.push({x,w,y:bottom-FINGER_H,h:FINGER_H,z:sn})});
   return out})();
+let FEL=null;
 function paintFingers(){
-  const g=$('fingerG');g.innerHTML='';
-  SLOTS.map((s,i)=>({s,i})).filter(o=>state.fingers[o.i]).sort((a,b)=>a.s.z-b.s.z)
-    .forEach(({s})=>svgImg(g,'a/finger.png',s.x-s.w/2,s.y,s.w,s.h).setAttribute('preserveAspectRatio','none'));
+  const g=$('fingerG');
+  if(!FEL){g.innerHTML='';FEL=SLOTS.map((s,i)=>({s,i})).sort((a,b)=>a.s.z-b.s.z).map(o=>{
+    const el=svgImg(g,'a/finger.png',o.s.x-o.s.w/2,o.s.y,o.s.w,o.s.h);el.setAttribute('preserveAspectRatio','none');el.setAttribute('visibility','hidden');return {i:o.i,el}})}
+  FEL.forEach(o=>setA(o.el,'visibility',state.fingers[o.i]?'visible':'hidden'));
 }
 
 /* ---------- placed items: move / resize / rotate ---------- */
@@ -513,12 +553,17 @@ let sel=null;
 const itemTf=(it,dx=0,dy=0)=>`translate3d(${dx}px,${dy}px,0) rotate(${it.r||0}deg) scale(${it.s||1})`;
 function itemSrc(it){return it.tint?tintURL(it.src,it.tint):`a/${it.src}.png`}
 function paintItems(){
-  const L=$('items');L.innerHTML='';
-  for(const it of state.items){
-    const im=document.createElement('img');im.src=itemSrc(it);im.className='placed';im.alt='';im.draggable=false;
-    im.style.cssText=`left:${it.x-it.w/2}px;top:${it.y-it.h/2}px;width:${it.w}px;height:${it.h}px;transform:${itemTf(it)}`;
-    im.dataset.uid=it.uid;im.addEventListener('pointerdown',itemDown);L.appendChild(im);
-  }
+  // keep the existing picture of every placed item and only move/re-order it, so nothing reloads (no flashing on iPad)
+  const L=$('items'),have={};[...L.children].forEach(im=>have[im.dataset.uid]=im);
+  state.items.forEach((it,k)=>{
+    let im=have[it.uid];delete have[it.uid];const src=itemSrc(it);
+    if(!im){im=document.createElement('img');im.className='placed';im.alt='';im.draggable=false;im.dataset.uid=it.uid;im.addEventListener('pointerdown',itemDown)}
+    if(im.dataset.src!==src){im.src=src;im.dataset.src=src}
+    const css=`left:${it.x-it.w/2}px;top:${it.y-it.h/2}px;width:${it.w}px;height:${it.h}px;transform:${itemTf(it)}`;
+    im.style.cssText=css;
+    if(L.children[k]!==im)L.insertBefore(im,L.children[k]||null);
+  });
+  Object.values(have).forEach(im=>im.remove());
   paintSel();
 }
 const SB=$('selBox');
@@ -902,7 +947,7 @@ function unlockAudio(){
   if(BGM.paused)BGM.play().catch(()=>{});
 }
 ['pointerdown','touchend','click'].forEach(ev=>addEventListener(ev,unlockAudio,{capture:true,passive:true}));
-function sfx(){if(!actx||!clickBuf)return;try{const s=actx.createBufferSource(),g=actx.createGain();g.gain.value=.9;s.buffer=clickBuf;s.connect(g);g.connect(actx.destination);s.start()}catch(e){}}
+function sfx(){if(!actx||!clickBuf)return;try{const s=actx.createBufferSource(),g=actx.createGain();g.gain.value=.3;s.buffer=clickBuf;s.connect(g);g.connect(actx.destination);s.start()}catch(e){}}
 // every tap during the personality quiz, and every pick from the decorating menu
 $('quizL').addEventListener('pointerdown',()=>sfx(),true);
 menuBar.addEventListener('pointerdown',e=>{if(e.target.closest('.tab'))sfx()});
@@ -911,7 +956,10 @@ $('track').addEventListener('pointerdown',e=>{if(e.target.closest('.item'))sfx()
 /* ---------- usage tracking (for the review) ---------- */
 // idle time: gaps of more than 5 s between two touches count as blank time
 let quizType=null,opT=[],undoN=0,mqLog=[],lastSum=null,skipTrack=false;
-addEventListener('pointerdown',()=>{if(quizDone&&ready&&!shipping&&!RECEIPT)opT.push(performance.now())},true);
+// any touch, drag or release counts as activity (dragging an item is not a pause)
+const markOp=()=>{if(quizDone&&ready&&!shipping&&!RECEIPT){const t=performance.now();if(!opT.length||t-opT[opT.length-1]>150)opT.push(t)}};
+['pointerdown','pointerup'].forEach(ev=>addEventListener(ev,markOp,true));
+addEventListener('pointermove',e=>{if(e.buttons||e.pressure>0)markOp()},true);
 const DEC=['fruit','cookie','gem','bow','flower'];
 const DEC_NAME={fruit:'水果',cookie:'餅乾&糖果',gem:'寶石',bow:'蝴蝶結',flower:'花朵'};
 function catOf(src){const m=/^(fruit|slice|cookie|piece|gem|flower|bow)_/.exec(src||'');if(!m)return null;
@@ -954,7 +1002,7 @@ let shipping=false,t0=performance.now(),elapsed=0,REC=null;
 $('bShip').onclick=()=>{
   if(shipping)return;closePalette();const end=performance.now();elapsed=end-t0;
   const pts=[t0,...opT.filter(t=>t>=t0&&t<=end),end];let idle=0;
-  for(let i=1;i<pts.length;i++){const g=pts[i]-pts[i-1];if(g>5000)idle+=g}
+  for(let i=1;i<pts.length;i++){const g=pts[i]-pts[i-1];if(g>=1000)idle+=g}   // every pause of a second or more counts as blank time
   shipping=true;sel=null;arm=null;stopMarquee();render();
   REC={T:quizType||'R',a:Math.round(elapsed/1000),i:Math.min(Math.round(idle/1000),Math.round(elapsed/1000)),u:undoN,
        lines:mqLog.filter(e=>e.hit).map(e=>({t:e.text,k:e.k,b:e.before,a:e.after})),c:decCounts(state)};
@@ -1169,15 +1217,15 @@ $('play').onclick=async()=>{
 
 /* ---------- receipt (screen 7) — drawn on a canvas so the saved picture is exactly what is shown ---------- */
 const TYPES={
-  R:{type:'主控型',name:'莓果',color:'#d4464f',tags:['掌控緊繃','節奏急躁','果斷主動','打破常規'],
+  R:{accent:'#c9414b',type:'主控型',name:'莓果',color:'#d4464f',tags:['掌控緊繃','節奏急躁','果斷主動','打破常規'],
      desc:'在面對烘焙台時，你很難忍受別人一直在旁邊指手畫腳，更不想照著死板的標準配方秤重。只要手握打蛋器，你就必須擁有全場的主導權，你的行動完全依賴自己的直覺與意願，面對未知時，你習慣先發制人，把節奏牢牢握在自己手裡。'},
-  M:{type:'明辨型',name:'抹茶',color:'#55713a',tags:['思慮過載','難以啟動','條理清晰','理性從容'],
+  M:{accent:'#55713a',type:'明辨型',name:'抹茶',color:'#55713a',tags:['思慮過載','難以啟動','條理清晰','理性從容'],
      desc:'走進廚房時，你絕對不會是第一個動手的人。你習慣先退後幾步，把每樣食材的成分、烤箱的脾氣以及別人的步驟全部掃描一遍。在你心裡沒有萬全的步驟藍圖與把握之前，你絕不會貿然挖下一匙麵粉。對你來說，「不出錯」遠比「搶第一」重要得多。'},
-  P:{type:'優越型',name:'布丁',color:'#e3b52e',tags:['追求獨特','防禦心重','獨創精神','忠於自我'],
+  P:{accent:'#d4a01f',type:'優越型',name:'布丁',color:'#e3b52e',tags:['追求獨特','防禦心重','獨創精神','忠於自我'],
      desc:'看到標準模具時，你心裡第一個冒出來的念頭絕對是：「大家都這樣做，那也太無聊了吧。」你非常排斥把自己塞進大眾的框架裡。你做蛋糕不是為了滿足誰的胃口，而是為了證明自己能做出一個前所未有、完全符合自己獨特美學的作品。'},
-  C:{type:'舒適型',name:'柑橘',color:'#d96b36',tags:['妥協過快','界線退讓','隨遇而安','柔軟彈性'],
+  C:{accent:'#d4652f',type:'舒適型',name:'柑橘',color:'#d96b36',tags:['妥協過快','界線退讓','隨遇而安','柔軟彈性'],
      desc:'蛋糕烤塌了一角？奶油抹得凹凸不平？你通常只會聳聳肩，順手切兩片水果蓋上去。你最討厭緊繃、高壓與非贏不可的環境，對你來說，做蛋糕就是為了開心放鬆，遇到任何意外都隨緣應變，怎麼舒服就怎麼來。'},
-  H:{type:'和諧型',name:'巧克力',color:'#714c2c',tags:['習慣顧全','消音自己','真誠共好','溫暖可靠'],
+  H:{accent:'#714c2c',type:'和諧型',name:'巧克力',color:'#714c2c',tags:['習慣顧全','消音自己','真誠共好','溫暖可靠'],
      desc:'站在材料區時你多半會拿起大家最熟悉、最不會踩雷的經典風味。比起讓自己的蛋糕成為櫥窗裡最搶眼的焦點，你更在乎這份心意端出去時，身邊的人吃得開不開心。你做選擇的出發點往往不是「我想要什麼」，而是「大家需要什麼」。'},
 };
 const F='"GenSenRounded2 TW","PingFang TC",sans-serif';
@@ -1190,15 +1238,27 @@ async function asDataURL(href){
   return URLC[href]=c.toDataURL('image/png');
 }
 // the decorated cake as a 2360×1655 canvas (same coordinates as the editor)
+// the decorated cake as a 2360×1655 canvas (same coordinates as the editor), painted directly on the canvas
+// so every layer (colour, drizzle, cream, ladyfingers, items) always comes out, on every browser
 async function cakeCanvas(){
-  const svg=$('cakeSvg').cloneNode(true);svg.setAttribute('xmlns',NS);svg.setAttribute('xmlns:xlink','http://www.w3.org/1999/xlink');
-  for(const im of svg.querySelectorAll('image')){if(im.style.display==='none'){im.remove();continue}
-    const h=im.getAttribute('href');if(h)im.setAttribute('href',await asDataURL(h))}
-  const blob=new Blob([new XMLSerializer().serializeToString(svg)],{type:'image/svg+xml'});
-  const url=URL.createObjectURL(blob);const sim=await loadImg(url);URL.revokeObjectURL(url);
-  const c=document.createElement('canvas');c.width=2360;c.height=1655;const x=c.getContext('2d');
-  if(sim)x.drawImage(sim,0,0,2360,1655);
-  for(const it of state.items){const im=await loadImg(it.tint?tintURL(it.src,it.tint):`a/${it.src}.png`);if(!im)continue;
+  const st=state,c=document.createElement('canvas');c.width=2360;c.height=1655;const x=c.getContext('2d');
+  const rgb=(h,s,l)=>{const [r,g,b]=hsl2rgb(h,clamp(s,0,100),clamp(l,0,100));return `rgb(${r},${g},${b})`};
+  const get=async k=>IMG[k]||await loadImg(`a/${k}.png`);
+  const {h,s,l}=st.cake;const side=new Path2D('M657 567 V1111 A522 127 0 0 0 1701 1111 V567 Z');
+  x.fillStyle=rgb(h,s,l);x.fill(side);
+  let g=x.createLinearGradient(657,0,1701,0);g.addColorStop(0,'rgba(255,255,255,.5)');g.addColorStop(.17,'rgba(255,255,255,0)');g.addColorStop(.82,'rgba(255,255,255,0)');g.addColorStop(1,'rgba(255,255,255,.55)');x.fillStyle=g;x.fill(side);
+  g=x.createLinearGradient(0,1085,0,1238);g.addColorStop(0,'rgba(255,255,255,0)');g.addColorStop(1,'rgba(255,255,255,.55)');x.fillStyle=g;x.fill(side);
+  x.save();x.translate(0,600);x.scale(1,.3);x.translate(0,-600);
+  g=x.createRadialGradient(1179,600,0,1179,600,522);g.addColorStop(0,rgb(h+1,s-5,l-5));g.addColorStop(.62,rgb(h+1,s-5,l-4.5));g.addColorStop(1,rgb(h+2,s-10,l+3));
+  x.fillStyle=g;x.beginPath();x.ellipse(1179,600+(567-600)/.3,522,127/.3,0,0,Math.PI*2);x.fill();x.restore();
+  if(st.drizzle&&dripSrc){const d=await loadImg(dripURL(st.drizzle.h,st.drizzle.s,st.drizzle.l));if(d)x.drawImage(d,639.6,413,1085.5,712)}
+  const beads=async rows=>{for(const b of beadsOf(rows)){const im=await get('bead_'+b.id);if(im)x.drawImage(im,b.x,b.y,b.w,b.h)}};
+  await beads(['top','mid']);
+  const fi=await get('finger');
+  if(fi)SLOTS.map((sl,i)=>({sl,i})).filter(o=>st.fingers[o.i]).sort((a,b)=>a.sl.z-b.sl.z).forEach(({sl})=>x.drawImage(fi,sl.x-sl.w/2,sl.y,sl.w,sl.h));
+  await beads(['bot']);
+  for(const p of st.pipes){const [bw,bh]=META.bead[p.id],w=BEAD_W,hh=BEAD_W*bh/bw,im=await get('bead_'+p.id);if(im)for(const [px,py] of p.pts)x.drawImage(im,px-w/2,py-hh*.6,w,hh)}
+  for(const it of st.items){const im=it.tint?await loadImg(tintURL(it.src,it.tint)):await get(it.src);if(!im)continue;
     x.save();x.translate(it.x,it.y);x.rotate((it.r||0)*Math.PI/180);x.scale(it.s||1,it.s||1);x.drawImage(im,-it.w/2,-it.h/2,it.w,it.h);x.restore()}
   return c;
 }
@@ -1220,13 +1280,24 @@ function buildReceipt(){return rcvReady=(async()=>{
   const [bg,cake,...circ]=await Promise.all([loadImg('a/rv/bg7.jpg'),cakeCanvas(),...DEC.map(k=>loadImg(`a/rv/b7_${k}.webp`))]);
   const c=$('rcv'),x=c.getContext('2d');x.clearRect(0,0,2360,1655);
   if(bg)x.drawImage(bg,0,0,2360,1655);
+  // title ribbon + buttons take the colour of the visitor's cake type (paper texture kept)
+  const AC=hexRGB(T.accent||T.color),NB=[64,73,146],LB=.299*NB[0]+.587*NB[1]+.114*NB[2];
+  [[110,58,2160,124],[800,1498,760,120]].forEach(([rx,ry,rw,rh])=>{try{const d=x.getImageData(rx,ry,rw,rh),p=d.data;
+    for(let i=0;i<p.length;i+=4){const r=p[i],g=p[i+1],b=p[i+2],w=Math.min(1,Math.max(0,(b-r-12)/40));if(!w)continue;
+      const f=(.299*r+.587*g+.114*b)/LB;for(let k=0;k<3;k++)p[i+k]=p[i+k]*(1-w)+Math.min(255,AC[k]*f)*w}
+    x.putImageData(d,rx,ry)}catch(e){}});
+  x.fillStyle='#fff';x.textAlign='left';x.textBaseline='middle';
+  x.font=`700 64px ${F}`;spaced(x,'你的總回顧',1189,122,14);
+  x.font=`700 46px ${F}`;spaced(x,'下載',980,1560,10);spaced(x,'分享',1380,1560,10);
+  x.textAlign='left';x.textBaseline='alphabetic';
+  $('rvHome').style.background=T.accent||T.color;
   x.save();x.translate(-52,0);   // the receipt cards were moved 52 px left so they sit in the middle
   // cake in the photo box
   x.save();x.beginPath();x.rect(585,258,610,462);x.clip();
   const k=.382,cx=894.5,ty=384.5;x.translate(cx-1179*k,ty-567*k);x.scale(k,k);x.drawImage(cake,0,0);x.restore();
   // personality
   x.textBaseline='alphabetic';x.fillStyle=T.color;x.font=`700 30px ${F}`;spaced(x,T.type,1383,365,14);
-  x.font=`700 60px ${F}`;spaced(x,T.name,1385,437,T.name.length>2?6:22);
+  if(T.name.length>2){x.font=`700 48px ${F}`;spaced(x,T.name,1381,433,3)}else{x.font=`700 60px ${F}`;spaced(x,T.name,1385,437,22)}
   T.tags.forEach((t,i)=>{const px=1470+(i%2)*168,py=333+Math.floor(i/2)*59;x.fillStyle=T.color;x.beginPath();
     if(x.roundRect)x.roundRect(px,py,150,45,22.5);else{x.arc(px+22.5,py+22.5,22.5,Math.PI/2,Math.PI*1.5);x.arc(px+127.5,py+22.5,22.5,-Math.PI/2,Math.PI/2);x.closePath()}x.fill();
     x.fillStyle='#fff';x.font=`700 24px ${F}`;x.textAlign='center';x.fillText(t,px+75,py+31);x.textAlign='left'});
@@ -1383,6 +1454,7 @@ const svg=`<svg class="shop" id="shop" viewBox="0 0 400 440" xmlns="http://www.w
 <linearGradient id="win" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e9e6f6"/><stop offset="1" stop-color="#c9c3e6"/></linearGradient>
 <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fdfcf7"/><stop offset="1" stop-color="#f3f0f8"/></linearGradient>
 <clipPath id="gnd"><rect x="10" y="398" width="380" height="24" rx="3"/></clipPath>
+<filter id="dglow" x="-40%" y="-30%" width="180%" height="160%"><feGaussianBlur stdDeviation="7"/></filter>
 <filter id="sh" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#5d5a8a" flood-opacity=".22"/></filter></defs>
 <rect x="10" y="398" width="380" height="22" rx="3" fill="#d6d9ee" stroke="${L}" stroke-width="1"/>
 <g filter="url(#sh)">
@@ -1401,6 +1473,7 @@ const svg=`<svg class="shop" id="shop" viewBox="0 0 400 440" xmlns="http://www.w
 <path d="M130 160V211M96 174L130 211L164 174M82 194L130 211L178 194" stroke="#8f97cc" stroke-width="2.6" fill="none" stroke-linecap="round"/>
 <rect x="70" y="212" width="120" height="188" fill="${N}"/>
 <rect x="80" y="222" width="100" height="178" fill="url(#glow)"/>
+<path id="drGlow" d="M62 400V215A68 68 0 0 1 198 215V400Z" fill="#ffd66b" filter="url(#dglow)"/>
 <g id="dr" class="doorbtn"><rect x="66" y="150" width="128" height="250" fill="#fff" fill-opacity="0"/>
 <g class="dl"><rect x="80" y="222" width="50" height="178" fill="#a3a9d8" stroke="${L}" stroke-width="1"/><rect x="87" y="230" width="36" height="76" rx="4" fill="#fbf7e6"/><path d="M105 230V306M87 268H123" stroke="#c9c3e6" stroke-width="1.6"/><rect x="88" y="324" width="34" height="62" rx="4" fill="#8f97cc"/><circle cx="123" cy="316" r="3.2" fill="#f2cf73"/></g>
 <g class="dr2"><rect x="130" y="222" width="50" height="178" fill="#b2b7df" stroke="${L}" stroke-width="1"/><rect x="137" y="230" width="36" height="76" rx="4" fill="#fbf7e6"/><path d="M155 230V306M137 268H173" stroke="#c9c3e6" stroke-width="1.6"/><rect x="138" y="324" width="34" height="62" rx="4" fill="#98a0d2"/><circle cx="137" cy="316" r="3.2" fill="#f2cf73"/></g></g>
@@ -1445,11 +1518,38 @@ function qBuildOptions(n){
   el.appendChild(nx);
   ready_(imgs);return {el,imgs};
 }
+// soft silhouettes of people strolling past the window, on the outside of the shop
+const WK_FIG=[
+  // woman in a coat
+  {w:300,h:900,body:'<circle cx="150" cy="92" r="58"/><path d="M134 140h32v34h-32z"/><path d="M96 176Q150 158 204 176Q232 188 234 230L258 560Q150 590 42 560L66 230Q68 188 96 176Z"/>',legs:[[124,540,36,350],[176,540,36,350]],arms:[[78,190,28,300],[222,190,28,300]]},
+  // man with a tote bag
+  {w:300,h:920,body:'<circle cx="150" cy="90" r="56"/><path d="M134 136h32v36h-32z"/><path d="M88 176Q150 160 212 176Q236 186 236 226L226 500Q150 516 74 500L64 226Q64 186 88 176Z"/><path d="M236 330h56l-8 130h-56z"/><path d="M244 330q20-50 40 0" fill="none" stroke-width="8" stroke="currentColor"/>',legs:[[122,490,42,420],[178,490,42,420]],arms:[[72,190,30,300],[228,190,30,300]]},
+  // child
+  {w:200,h:560,body:'<circle cx="100" cy="70" r="48"/><path d="M68 120Q100 108 132 120Q150 128 150 156L160 340Q100 356 40 340L50 156Q50 128 68 120Z"/>',legs:[[82,330,30,220],[118,330,30,220]],arms:[[50,132,24,180],[150,132,24,180]]},
+];
+function walkerSVG(f,col){
+  const r=(a,cls)=>`<rect class="${cls}" x="${a[0]-a[2]/2}" y="${a[1]}" width="${a[2]}" height="${a[3]}" rx="${a[2]/2}"/>`;
+  return `<svg width="${f.w}" height="${f.h}" viewBox="0 0 ${f.w} ${f.h}" fill="${col}" style="color:${col}"><g class="bob">${r(f.arms[0],'ar')}${r(f.legs[0],'lg')}${r(f.legs[1],'lg lg2')}${f.body}${r(f.arms[1],'ar ar2')}</g></svg>`;
+}
+function addWalkers(el){
+  const box=document.createElement('div');box.className='walkers';el.appendChild(box);let n=0,alive=true;
+  const COLS=['#5d5794','#6b6aa6','#4f6a8f','#7a6696','#5f7f9a','#86719e'];
+  const spawn=()=>{if(!alive||!el.isConnected){alive=false;return}
+    const f=WK_FIG[n%3===2?2:Math.floor(Math.random()*2)],dir=Math.random()<.5?1:-1,k=.6+Math.random()*.18,dur=10000+Math.random()*5000;
+    const d=document.createElement('div');d.className='wk';d.innerHTML=walkerSVG(f,COLS[n%COLS.length]);n++;
+    const W=f.w*k,from=dir>0?340-W:2020,to=dir>0?2020:340-W;
+    d.style.width=W+'px';d.style.bottom=(290+Math.random()*70)+'px';d.firstChild.setAttribute('width',W);d.firstChild.setAttribute('height',f.h*k);
+    box.appendChild(d);
+    d.animate([{transform:`translateX(${from}px) scaleX(${dir})`,opacity:0},{opacity:.26,offset:.08},{opacity:.26,offset:.92},{transform:`translateX(${to}px) scaleX(${dir})`,opacity:0}],{duration:dur,easing:'linear'}).finished.then(()=>d.remove()).catch(()=>{});
+    setTimeout(spawn,1100+Math.random()*1500);
+  };
+  [200,900,1700,2600].forEach(t=>setTimeout(spawn,t));
+}
 function qQ5(){
-  const el=document.createElement('div');el.className='qscr';const dark=qimg('q5_q');el.appendChild(dark);
+  const el=document.createElement('div');el.className='qscr';const dark=qimg('q5_q');el.appendChild(dark);addWalkers(el);
   const lit=qimg('q5_lit'),opt=qBuildOptions(5);ready_([lit]);
   const go=qType(el,'q5',async()=>{
-    qBusy=true;const L=document.createElement('div');L.className='qscr';L.appendChild(lit);
+    qBusy=true;const L=document.createElement('div');L.className='qscr';L.appendChild(lit);addWalkers(L);
     const glow=qdiv('qglow');L.appendChild(glow);
     await qShow(L,[lit],1900);                       // the lights slowly come on
     glow.animate([{opacity:0},{opacity:.9},{opacity:0}],{duration:2200,easing:'ease-in-out'});
