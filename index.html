@@ -74,10 +74,8 @@ button:focus-visible{outline:4px solid var(--navy);outline-offset:4px;border-rad
 #sthumb{position:absolute;top:0;height:8px;border-radius:4px;background:#c9caca}
 
 /* marquee */
-/* bullet comments: the same line drifting across in many lanes, only around the cake (never over it) */
-#danmaku{overflow:hidden;-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%222360%22%20height%3D%221655%22%20viewBox%3D%220%200%202360%201655%22%3E%3Cdefs%3E%3Cfilter%20id%3D%22f%22%20x%3D%22-10%25%22%20y%3D%22-10%25%22%20width%3D%22120%25%22%20height%3D%22120%25%22%3E%3CfeGaussianBlur%20stdDeviation%3D%2210%22/%3E%3C/filter%3E%3Cmask%20id%3D%22m%22%3E%3Cg%20filter%3D%22url%28%23f%29%22%3E%3Crect%20x%3D%22125%22%20y%3D%22180%22%20width%3D%222076%22%20height%3D%22826%22%20fill%3D%22%23fff%22/%3E%3Crect%20x%3D%22555%22%20y%3D%22318%22%20width%3D%221228%22%20height%3D%22760%22%20rx%3D%2224%22%20fill%3D%22%23000%22/%3E%3C/g%3E%3C/mask%3E%3C/defs%3E%3Crect%20width%3D%222360%22%20height%3D%221655%22%20fill%3D%22%23000%22%20mask%3D%22url%28%23m%29%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%222360%22%20height%3D%221655%22%20viewBox%3D%220%200%202360%201655%22%3E%3Cdefs%3E%3Cfilter%20id%3D%22f%22%20x%3D%22-10%25%22%20y%3D%22-10%25%22%20width%3D%22120%25%22%20height%3D%22120%25%22%3E%3CfeGaussianBlur%20stdDeviation%3D%2210%22/%3E%3C/filter%3E%3Cmask%20id%3D%22m%22%3E%3Cg%20filter%3D%22url%28%23f%29%22%3E%3Crect%20x%3D%22125%22%20y%3D%22180%22%20width%3D%222076%22%20height%3D%22826%22%20fill%3D%22%23fff%22/%3E%3Crect%20x%3D%22555%22%20y%3D%22318%22%20width%3D%221228%22%20height%3D%22760%22%20rx%3D%2224%22%20fill%3D%22%23000%22/%3E%3C/g%3E%3C/mask%3E%3C/defs%3E%3Crect%20width%3D%222360%22%20height%3D%221655%22%20fill%3D%22%23000%22%20mask%3D%22url%28%23m%29%22/%3E%3C/svg%3E");-webkit-mask-size:100% 100%;mask-size:100% 100%;transition:opacity .6s}
-#danmaku.fade{opacity:0}
-.dm{position:absolute;left:0;top:0;white-space:nowrap;font-size:60px;line-height:76px;font-weight:700;letter-spacing:.08em;will-change:transform}
+#marquee{transition:transform .45s cubic-bezier(.3,.8,.3,1)}
+#marquee.away{transform:translateY(-270px)}
 #mText{position:absolute;left:45px;width:2268px;top:97px;height:86px;line-height:86px;text-align:center;font-size:46px;font-weight:700;color:#fff;letter-spacing:.04em;white-space:nowrap}
 #mHandle{position:absolute;left:980px;top:160px;width:400px;height:80px;pointer-events:auto;touch-action:none}
 
@@ -218,62 +216,6 @@ button:focus-visible{outline:4px solid var(--navy);outline-offset:4px;border-rad
 .qtri.on{opacity:1;animation:qtb 1s ease-in-out infinite}
 @keyframes qtb{50%{transform:translateY(9px)}}
 .qhit{position:absolute;cursor:pointer}
-/* personality result: big readable text card on the right, small living details on the left */
-.rs-tag{position:absolute;left:520px;top:1140px;width:350px;height:200px;transform-origin:50% 92%;animation:rsway 3.4s ease-in-out infinite alternate}
-@keyframes rsway{from{transform:rotate(-1deg)}to{transform:rotate(1deg)}}
-.rs-spk{position:absolute;width:56px;height:56px;margin:-28px 0 0 -28px;opacity:0;animation:rspk 3s ease-in-out infinite}
-@keyframes rspk{0%,100%{opacity:0;transform:scale(.2) rotate(0)}45%{opacity:1;transform:scale(1) rotate(45deg)}70%{opacity:.8;transform:scale(.8) rotate(70deg)}}
-.rs-card{position:absolute;left:952px;top:146px;width:1250px;height:1204px;background:#f8f8f6;box-shadow:0 10px 34px rgba(80,60,40,.14);overflow:hidden;
-  animation:rsin .8s cubic-bezier(.2,.8,.2,1) both}
-.rs-card::before{content:"";position:absolute;inset:0;opacity:.5;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 .06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-@keyframes rsin{from{opacity:0;transform:translateX(50px)}}
-.rs-rib{position:absolute;left:1251px;top:86px;width:653px;animation:rsdrop .7s .25s cubic-bezier(.3,1.4,.5,1) both}
-@keyframes rsdrop{from{opacity:0;transform:translateY(-30px) scale(.94)}}
-.rs-in{position:absolute;left:84px;right:84px;top:116px;color:#3b3936;--k:1}
-.rs-in h3{margin:0;display:flex;align-items:center;gap:20px;font-size:calc(var(--k)*52px);font-weight:700;line-height:1.25}
-.rs-in h3 .ic{font-size:1em;width:1em;text-align:center}
-.rs-in .tg{font-size:calc(var(--k)*30px);font-weight:700;color:#fff;padding:.28em .95em;border-radius:999px;letter-spacing:.06em;line-height:1.2}
-.rs-in .tg:first-of-type{margin-left:10px}
-.rs-in p{margin:calc(var(--k)*18px) 0 0;font-size:calc(var(--k)*32px);line-height:1.6;font-weight:700;text-align:justify}
-.rs-in .bx{margin-top:calc(var(--k)*16px);background:#ecebe8;border-radius:24px;padding:calc(var(--k)*22px) calc(var(--k)*32px);
-  font-size:calc(var(--k)*30px);line-height:1.62;color:#4a4744;text-align:justify}
-.rs-in hr{border:0;border-top:3px solid #d9d5ce;margin:calc(var(--k)*30px) 0}
-.rs-in .sec{animation:rsup .7s cubic-bezier(.2,.8,.2,1) both}
-@keyframes rsup{from{opacity:0;transform:translateY(24px)}}
-
-/* ---- result page layouts (mock) ---- */
-.rv-cake{position:absolute;left:210px;top:300px;width:930px;height:1200px;transform-origin:0 0;transform:scale(.8)}
-.lay .rs-rib{left:auto;right:auto}
-.lc{position:absolute;color:#3b3936;--k:1}
-.lc .rcd{position:absolute;left:0;right:0;background:#fbfaf6;box-shadow:0 8px 24px rgba(80,60,40,.13);padding:calc(var(--k)*40px) calc(var(--k)*56px) calc(var(--k)*42px);animation:rsup .7s cubic-bezier(.2,.8,.2,1) both}
-.lc .rcd::after{content:"";position:absolute;left:50%;top:-20px;width:120px;height:40px;margin-left:-60px;background:var(--tape);opacity:.75;transform:rotate(-3deg)}
-.lc h3{margin:0;display:flex;align-items:center;gap:16px;font-size:calc(var(--k)*44px);font-weight:700;line-height:1.2;color:var(--c)}
-.lc h3 .ic{width:1em;text-align:center}
-.lc .tg{font-size:calc(var(--k)*26px);font-weight:700;color:#fff;background:var(--c);padding:.3em .9em;border-radius:999px;letter-spacing:.06em}
-.lc .tg:first-of-type{margin-left:8px}
-.lc .gold{margin:calc(var(--k)*22px) 0 0;font-size:calc(var(--k)*36px);line-height:1.55;font-weight:700;color:var(--c)}
-.lc .rest{margin:calc(var(--k)*14px) 0 0;font-size:calc(var(--k)*27px);line-height:1.85;color:#77726b;text-align:justify}
-.lc .body{margin:calc(var(--k)*20px) 0 0;font-size:calc(var(--k)*29px);line-height:1.85;color:#4a4744;text-align:justify}
-.lc .one{position:absolute;inset:0;background:#fbfaf6;box-shadow:0 10px 34px rgba(80,60,40,.14);padding:calc(var(--k)*76px) calc(var(--k)*80px) 0}
-.lc .one .sec{animation:rsup .7s cubic-bezier(.2,.8,.2,1) both}
-.lc .one .sec+.sec{margin-top:calc(var(--k)*54px)}
-.rs-btn{position:absolute;left:1175px;top:1372px;width:804px;height:131px;animation:rsup .7s 1.3s cubic-bezier(.2,.8,.2,1) both;cursor:pointer}
-.rs-btn img{width:100%;height:100%;display:block}
-.rs-btn .qshine{inset:0}
-/* 下一題: big navy tab on the right edge, greyed until an answer is picked, then it pulses */
-.qnext{position:absolute;left:1972px;top:1458px;width:330px;height:150px;border-radius:12px;color:#44449a;
-  background:#fbf9f1 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  display:flex;align-items:center;justify-content:center;gap:20px;font-size:56px;font-weight:700;letter-spacing:.1em;
-  box-shadow:0 10px 22px rgba(50,52,110,.22),0 1px 3px rgba(50,52,110,.15);transform:rotate(-3deg) translateY(8px);opacity:.6;
-  transition:opacity .35s,transform .45s cubic-bezier(.3,1.6,.5,1);cursor:pointer}
-.qnext::before{content:"";position:absolute;left:50%;top:-22px;width:130px;height:42px;margin-left:-65px;background:rgba(236,214,150,.85);transform:rotate(4deg);
-  clip-path:polygon(0 6%,5% 0,10% 8%,15% 0,100% 0,95% 10%,100% 22%,95% 34%,100% 46%,95% 58%,100% 70%,95% 82%,100% 94%,90% 100%,0 100%,5% 88%,0 76%,5% 64%,0 52%,5% 40%,0 28%,5% 16%)}
-.qnext .ar{width:68px;height:68px;border-radius:50%;background:#44449a;display:grid;place-items:center;flex:none}
-.qnext .ar svg{width:40px;height:40px}
-.qnext.ready{opacity:1;transform:rotate(-3deg);animation:qnhop .6s cubic-bezier(.3,1.6,.5,1)}
-.qnext.ready .ar{animation:qna 1.6s ease-in-out infinite}
-@keyframes qnhop{0%{transform:rotate(-3deg) translateY(8px)}50%{transform:rotate(-5deg) translateY(-14px)}100%{transform:rotate(-3deg)}}
-@keyframes qna{0%,100%{transform:translateX(0)}50%{transform:translateX(8px)}}
 /* passers-by walking past outside the shop window (question 5) */
 .walkers{position:absolute;inset:0;pointer-events:none;overflow:hidden;-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%222360%22%20height%3D%221655%22%20viewBox%3D%220%200%202360%201655%22%3E%3Cdefs%3E%3Cmask%20id%3D%22m%22%3E%3Crect%20x%3D%22340%22%20y%3D%22288%22%20width%3D%221680%22%20height%3D%221070%22%20fill%3D%22%23fff%22/%3E%3Cg%20fill%3D%22%23000%22%3E%3Crect%20x%3D%22790%22%20y%3D%22700%22%20width%3D%22825%22%20height%3D%22560%22/%3E%3Cellipse%20cx%3D%221202%22%20cy%3D%22740%22%20rx%3D%22415%22%20ry%3D%22105%22/%3E%3Ccircle%20cx%3D%221205%22%20cy%3D%22700%22%20r%3D%22145%22/%3E%3Cellipse%20cx%3D%221205%22%20cy%3D%221255%22%20rx%3D%22570%22%20ry%3D%22180%22/%3E%3C/g%3E%3C/mask%3E%3C/defs%3E%3Crect%20width%3D%222360%22%20height%3D%221655%22%20fill%3D%22%23000%22%20mask%3D%22url%28%23m%29%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%222360%22%20height%3D%221655%22%20viewBox%3D%220%200%202360%201655%22%3E%3Cdefs%3E%3Cmask%20id%3D%22m%22%3E%3Crect%20x%3D%22340%22%20y%3D%22288%22%20width%3D%221680%22%20height%3D%221070%22%20fill%3D%22%23fff%22/%3E%3Cg%20fill%3D%22%23000%22%3E%3Crect%20x%3D%22790%22%20y%3D%22700%22%20width%3D%22825%22%20height%3D%22560%22/%3E%3Cellipse%20cx%3D%221202%22%20cy%3D%22740%22%20rx%3D%22415%22%20ry%3D%22105%22/%3E%3Ccircle%20cx%3D%221205%22%20cy%3D%22700%22%20r%3D%22145%22/%3E%3Cellipse%20cx%3D%221205%22%20cy%3D%221255%22%20rx%3D%22570%22%20ry%3D%22180%22/%3E%3C/g%3E%3C/mask%3E%3C/defs%3E%3Crect%20width%3D%222360%22%20height%3D%221655%22%20fill%3D%22%23000%22%20mask%3D%22url%28%23m%29%22/%3E%3C/svg%3E");-webkit-mask-size:100% 100%;mask-size:100% 100%}
 .wk{position:absolute;bottom:300px;left:0;filter:blur(1.6px);opacity:0}
@@ -303,7 +245,7 @@ button:focus-visible{outline:4px solid var(--navy);outline-offset:4px;border-rad
 .doorhint::before{content:"";position:absolute;left:50%;top:-26px;width:150px;height:40px;margin-left:-75px;background:#c9e0a0;opacity:.85;transform:rotate(-2deg)}
 @keyframes qhb{50%{transform:translateX(-50%) translateY(10px)}}
 #loader{position:absolute;inset:0;display:grid;place-items:center;background:var(--ground);color:var(--navy);font-size:44px;font-weight:700;z-index:100;transition:opacity .5s}
-@media (prefers-reduced-motion:reduce){#rig,#store,#panel{transition-duration:.01s}#guides path{animation:none}}
+@media (prefers-reduced-motion:reduce){#rig,#store,#panel,#marquee{transition-duration:.01s}#guides path{animation:none}}
 </style></head><body>
 
 <div id="vp"><div id="stage">
@@ -382,8 +324,12 @@ button:focus-visible{outline:4px solid var(--navy);outline-offset:4px;border-rad
       </div>
     </div>
 
-    <div id="danmaku" class="layer noev"></div>
     <div id="hint"></div>
+    <div id="marquee" class="layer noev away">
+      <img class="abs" id="mqImg" src="a/mq_0.png" style="left:0;top:-70px;width:2359px;height:416px" alt="">
+      <div id="mText"></div>
+      <div id="mHandle" aria-label="收起提示"></div>
+    </div>
   </div>
 
   <div id="dragLayer" class="layer noev"></div>
@@ -398,12 +344,13 @@ button:focus-visible{outline:4px solid var(--navy);outline-offset:4px;border-rad
       <div class="blab" style="left:402px;color:#dde6ed">操作時長</div><div class="blab" style="left:1202px;color:#fbfbfc">空白時長</div></div>
     <div class="layer rvs" id="rv4"><img class="abs" data-src="a/rv/bg4.jpg" style="left:0;top:0;width:2360px;height:1655px" alt=""><div id="bubs" class="layer noev"></div></div>
     <div class="layer rvs" id="rv5"><img class="abs" data-src="a/rv/bg5.jpg" style="left:0;top:0;width:2360px;height:1655px" alt=""><div id="rv5n" class="nr"></div></div>
-    <div class="layer rvs" id="rv6"><img class="abs" data-src="a/rv/bg6.jpg" style="left:0;top:0;width:2360px;height:1655px" alt=""><div id="board"></div><div id="bEmpty" hidden>這次沒有受到彈幕的影響</div>
+    <div class="layer rvs" id="rv6"><img class="abs" data-src="a/rv/bg6.jpg" style="left:0;top:0;width:2360px;height:1655px" alt=""><div id="board"></div><div id="bEmpty" hidden>這次沒有受到跑馬燈的影響</div>
       <div id="replay"><img id="rpB" class="rpf" alt=""><img id="rpA" class="rpf" alt=""><div id="rpRings" class="layer" style="width:1080px;height:570px"></div>
         <div id="rpMq"><img alt=""><div></div></div></div>
       <button id="play" aria-label="播放"><svg viewBox="0 0 24 24"><path d="M6 3.8c0-1 1.1-1.6 1.9-1.1l13 8.2c.8.5.8 1.7 0 2.2l-13 8.2C7.1 21.8 6 21.2 6 20.2z" fill="#fff"/></svg></button></div>
     <div class="layer rvs" id="rv7"><canvas id="rcv" width="2360" height="1655"></canvas>
-      <button class="hitb" id="bDown" aria-label="下載" style="left:1004px;top:1502px;width:354px;height:111px"></button>
+      <button class="hitb" id="bDown" aria-label="下載" style="left:804px;top:1502px;width:354px;height:111px"></button>
+      <button class="hitb" id="bShare" aria-label="分享" style="left:1205px;top:1502px;width:352px;height:111px"></button>
       <div id="qrM"><div id="qrCard"><button id="qrX" aria-label="關閉">×</button><h3>掃描 QR Code 保存你的收據</h3><div id="qrBox"></div><p>用手機相機掃描，就能開啟並儲存這張收據</p></div></div>
     </div>
     <button id="rvNext" aria-label="Next"><img src="a/rv/next.png" alt=""></button>
@@ -977,37 +924,21 @@ const panel=$('panel');
 swipe($('handleZone'),()=>panel.classList.remove('collapsed'),()=>{closePalette();panel.classList.add('collapsed')},()=>{closePalette();panel.classList.toggle('collapsed')});
 
 /* marquee: every 10 s show for 3 s until the cake is shipped */
-let mqTimer=null,mqHide=null,lastLine='';
+const mq=$('marquee');let mqTimer=null,mqHide=null,lastLine='';
 function pickLine(){
   let pool;if(curCat&&LINES[curCat.key])pool=LINES[curCat.key];else pool=Object.values(LINES).flat();
   let t;do{t=pool[Math.floor(Math.random()*pool.length)]}while(pool.length>1&&t===lastLine);lastLine=t;return t;
 }
 let lastMq=-1;
-// a wave of bullet comments: one suggestion line, many copies drifting right→left in different lanes
-// suggestion lines are shown without punctuation: commas become a space, the final full stop goes
-const dmText=t=>t.replace(/[，、；：！？。!?,.]+$/,'').replace(/[，、；：！？。!?,.]+/g,'　');
-const DM_LANES=[214,278,384,456,528,600,672,744,816,888,960];
-const DM_COL=['#c84f58','#7464bf','#5a8a2c','#2f86a3','#c28418'];
-let dmTimers=[];
-function showMarquee(){if(shipping)return;const text=pickLine();
+function showMarquee(){if(shipping)return;const text=pickLine();$('mText').textContent=text;
   let k;do{k=Math.floor(Math.random()*5)}while(k===lastMq);lastMq=k;
-  mqLog.push({t:performance.now(),text,k,cat:curCat&&LINES[curCat.key]?curCat.key:lineCat(text)});
-  const box=$('danmaku');box.classList.remove('fade');
-  // one lane above the cake: the same line runs through three times, one after another
-  const DUR=11000,GAP=620,Y=258;
-  const probe=document.createElement('div');probe.className='dm';probe.textContent=dmText(text);probe.style.visibility='hidden';box.appendChild(probe);
-  const w=probe.offsetWidth;probe.remove();const speed=(2380+w+20)/DUR;
-  [0,1,2].forEach(n=>{dmTimers.push(setTimeout(()=>{if(shipping)return;
-    const d=document.createElement('div');d.className='dm';d.textContent=dmText(text);d.style.color=DM_COL[k];
-    d.style.top=(Y-38)+'px';box.appendChild(d);
-    d.animate([{transform:'translateX(2380px)'},{transform:`translateX(${-w-20}px)`}],{duration:DUR,easing:'linear'}).finished.then(()=>d.remove(),()=>d.remove());
-  },n*(w+GAP)/speed))});
-}
-function hideMarquee(){const box=$('danmaku');box.classList.add('fade');dmTimers.forEach(clearTimeout);dmTimers=[];
-  setTimeout(()=>{if(box.classList.contains('fade'))box.innerHTML=''},650)}
-function startMarquee(){stopMarquee();$('danmaku').classList.remove('fade');mqFirst=setTimeout(()=>{showMarquee();mqTimer=setInterval(showMarquee,15000)},10000)}
+  mqLog.push({t:performance.now(),text,k,cat:curCat&&LINES[curCat.key]?curCat.key:lineCat(text)});$('mqImg').src=`a/mq_${k}.png`;mq.classList.remove('away');
+  clearTimeout(mqHide);mqHide=setTimeout(hideMarquee,5000);}
+function hideMarquee(){mq.classList.add('away');}
+function startMarquee(){stopMarquee();mqFirst=setTimeout(()=>{showMarquee();mqTimer=setInterval(showMarquee,15000)},10000)}
 let mqFirst=null;
-function stopMarquee(){clearInterval(mqTimer);clearTimeout(mqFirst);hideMarquee();}
+function stopMarquee(){clearInterval(mqTimer);clearTimeout(mqHide);clearTimeout(mqFirst);hideMarquee();}
+swipe($('mHandle'),()=>{clearTimeout(mqHide);hideMarquee()},null,null);
 
 /* ---------- sound ---------- */
 // (a receipt link opened on a phone never loads the 4 MB music file)
@@ -1212,7 +1143,7 @@ function cardSet(lines,ghost){
   const ctx=document.createElement('canvas').getContext('2d');ctx.font='700 46px "GenSenRounded2 TW"';
   const els=[];
   rows.forEach((row,ri)=>{
-    let fs=46;const pad=150,gap=56;let ws=row.map(l=>ctx.measureText(dmText(l.t)).width+pad);
+    let fs=46;const pad=150,gap=56;let ws=row.map(l=>ctx.measureText(l.t).width+pad);
     let tot=ws.reduce((a,b)=>a+b,0)+gap*(row.length-1);
     if(tot>1990){const k=(1990-gap*(row.length-1))/(tot-gap*(row.length-1));ws=ws.map(w=>w*k);fs=46*k}
     tot=ws.reduce((a,b)=>a+b,0)+gap*(row.length-1);
@@ -1220,7 +1151,7 @@ function cardSet(lines,ghost){
     row.forEach((l,i)=>{const c=MQC[l.k%5],el=document.createElement('div');el.className='card'+(ghost?' ghost':'');
       const idx=ri*3+i;
       el.style.cssText=`left:${x}px;top:${cy-83}px;width:${ws[i]}px;color:${c.ink};font-size:${fs}px;transform:rotate(${ROTS[idx]}deg)`;
-      el.innerHTML=`<div class="tape" style="background:${c.tape};transform:rotate(${-ROTS[idx]*1.5}deg)"></div>${dmText(l.t)}`;
+      el.innerHTML=`<div class="tape" style="background:${c.tape};transform:rotate(${-ROTS[idx]*1.5}deg)"></div>${l.t}`;
       B.appendChild(el);els.push(el);x+=ws[i]+gap});
   });
   return els;
@@ -1373,7 +1304,7 @@ function buildReceipt(){return rcvReady=(async()=>{
     x.putImageData(d,rx,ry)}catch(e){}});
   x.fillStyle='#fff';x.textAlign='left';x.textBaseline='middle';
   x.font=`700 64px ${F}`;spaced(x,'你的總回顧',1189,122,14);
-  x.font=`700 46px ${F}`;spaced(x,'下載',1181,1560,10);
+  x.font=`700 46px ${F}`;spaced(x,'下載',980,1560,10);spaced(x,'分享',1380,1560,10);
   x.textAlign='left';x.textBaseline='alphabetic';
   $('rvHome').style.background=T.accent||T.color;
   x.save();x.translate(-52,0);   // the receipt cards were moved 52 px left so they sit in the middle
@@ -1453,6 +1384,12 @@ $('bDown').onclick=async()=>{
 };
 $('qrX').onclick=e=>{e.stopPropagation();$('qrM').classList.remove('on')};
 $('qrM').onclick=e=>{if(e.target===$('qrM'))$('qrM').classList.remove('on')};
+$('bShare').onclick=async()=>{
+  await rcvReady;
+  if(RECEIPT&&navigator.share){try{await navigator.share({title:'櫥窗裡的你｜我的收據',url:shareURL});return}catch(e){if(e&&e.name==='AbortError')return}}
+  const link=RECEIPT?shareURL:await linkToShare();
+  toast(await copyText(link)?'連結已複製，可以貼給朋友了！':'無法自動複製，請長按網址列複製連結');
+};
 // phone view (opened from the QR code): save the receipt as a picture
 async function saveImage(){
   await rcvReady;const src=$('rcv'),c=document.createElement('canvas');c.width=2360;c.height=1495;c.getContext('2d').drawImage(src,0,0);
@@ -1589,11 +1526,9 @@ function qQuestion(n,pre){
 function qBuildOptions(n){
   const el=document.createElement('div');el.className='qscr';
   const keys=['all','A','B','C','D','E'],imgs=keys.map(k=>{const i=qimg(`q${n}_${k}`);el.appendChild(i);return i});
-  const nx=document.createElement('div');nx.className='qnext';
-  nx.innerHTML='下一題<span class="ar"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span>';
-  const show=i=>{imgs.forEach((m,j)=>m.classList.toggle('on',j===(i==null?0:i+1)));nx.classList.toggle('ready',i!=null)};show(qAns[n-1]);
+  const show=i=>imgs.forEach((m,j)=>m.classList.toggle('on',j===(i==null?0:i+1)));show(qAns[n-1]);
   QG.hits['q'+n].forEach((r,i)=>{const h=qdiv('qhit',r);h.onclick=()=>{if(qBusy)return;qAns[n-1]=i;show(i)};el.appendChild(h)});
-  nx.onclick=()=>{if(qBusy||qAns[n-1]==null)return;qBusy=true;
+  const nx=qdiv('qhit',NEXT_R);nx.onclick=()=>{if(qBusy||qAns[n-1]==null)return;qBusy=true;
     const nextImg=n<4?qimg('q'+(n+1)+'_q'):null;
     const after=()=>{qBusy=false;n<5?qQuestion(n+1,nextImg):qResult()};
     if(nextImg)ready_([nextImg]).then(after);else after()};
@@ -1640,57 +1575,16 @@ function qQ5(){
   });
   qShow(el,[dark],600).then(go);
 }
-// the two longer readings for each result (the short intro and the tags come from TYPES)
-const RES_TXT={
-  R:{shine:'你擁有極強的主導力與開創膽量，散發著令人信服的領袖氣場。你從不把時間浪費在被動等待或猶豫不決上，只要內心有了方向，就能迅速整合資源、率先跨出第一步；在面對充滿未知的挑戰時，你敢於打破傳統食譜的條條框框，憑藉敏銳的直覺在毫無路徑的地方闖出全新的可能性，帶領周圍的人看見意料之外的亮點。',
-     stuck:'因為習慣自己拿主意，當事情脫離預期或受到外在規則限制時，你內心容易升起一種失去主控權的焦慮。有時為了維持全盤的掌握感，你會下意識對身邊人的建議築起防線，想靠自己的力量硬撐過關；同時，由於你的直覺與行動力總是走在最前面，當熱度退去或遇到需要耐心打磨的繁瑣細節時，你容易感到浮躁，甚至在不知不覺中給周圍的人帶來有些強勢、急著推進的壓迫感。'},
-  M:{shine:'你自帶一種不被外界焦慮帶偏的冷靜與定力。在眾人手忙腳亂、毫無頭緒的時候，你總能抽離混亂的情緒，精準洞察問題的底層邏輯與關鍵環節；你擅長制定周密的步驟與標準，將複雜龐雜的任務梳理得井井有條，任何細節只要經過你的把關都能達到極高水準的穩定度與協調感，是團體中最令人心安的智囊。',
-     stuck:'你對「每一步都要走得踏實正確」有著很高的自我期許，潛意識裡很擔心因為一時疏忽而留下遺憾或犯下錯誤。這份嚴謹有時會讓你陷入「想得太多、做得太少」的分析循環中，反覆推敲細節而遲遲無法跨出第一步；看著身邊的人都已經熱鬧前進時，你可能還在跟自己的標準較勁，有時更會不自覺地用這套高標準去審視他人，在無意間拉開了與彼此的距離。'},
-  P:{shine:'你擁有稀有而強烈的原創靈魂，眼光永遠望向更高、更獨特的美學維度。你具備阿德勒所說「被討厭的勇氣」，從不為了迎合大眾市場而稀釋自己的風格；只要是自己認同的價值，哪怕沒有前人的範本可以參考、周圍投來懷疑的眼光，你也能頂住質疑把腦海中瑰麗的想法化為現實，展現出驚豔四座的個人色彩。',
-     stuck:'你對平凡與套路有一種本能的抗拒，極度渴望在作品中留下無法被取代的個人印記。但這份對「與眾不同」的執著，偶爾會讓你在與人合作時顯得有些固執，甚至為了不想落入俗套而刻意排斥成熟有用的既有經驗；當遇到外界不理解或提出不同意見時，你容易將這些聲音解讀成對自我品味的否定，下意識拉起高冷防線，把真心想交流的人擋在心門之外。'},
-  C:{shine:'你擁有極為強大的心理彈性與自我接納能力，是名副其實的「鬆弛感大師」。面對現實的挫折與計畫外的變數，你從不陷入無謂的焦慮或自我苛責，總能第一時間順應環境找到自洽的解法；你的存在就像一陣溫柔的微風，懂得把生活中的狼狽轉化為幽默的插曲，能為身邊被高壓逼得喘不過氣的人帶來無比療癒的釋放。',
-     stuck:'你追求輕鬆隨和的生活哲學，本質上源自於對衝突、高壓環境與過重心理負擔的自我保護。為了維持眼前的平和與舒適，你常常在遇到阻礙或分歧的第一時間選擇笑著讓步，把「沒關係、這樣也可以」當成口頭禪；但一次次的遷就與降低標準，容易讓你在不知不覺中模糊了自己的底線，甚至把最初心裡真正想堅持、在乎的事情也悄悄犧牲掉了。'},
-  H:{shine:'你展現了最純粹的共同體感覺，是群體中最可靠的黏合劑與核心支柱。你擁有深刻的同理心，總能敏銳捕捉身邊每個人的情緒與需求，並給予最妥貼、真誠的照料；你做人做事踏實負責任，從不搶風頭或爭強好勝，而是以深厚的溫暖與包容守護團隊，讓每個走進你生活的人都能感到被深深接納與尊重。',
-     stuck:'你對身邊人的感受有著無比敏銳的雷達，但這份體貼背後往往藏著對破壞氣氛或被人疏離的隱隱擔憂。為了維護關係的和諧與周圍人的期待，你習慣先去照顧別人，卻往往把自己的喜好與情緒排在最後面；長期的自我壓抑容易讓你在心底積累無聲的疲憊，而且因為太依賴安全熟悉的相處模式，每當關係或環境面臨變動時，你內心的不安會比任何人都強烈。'},
-};
-const resImg=(src,cls)=>{const i=new Image();i.decoding='async';i.draggable=false;i.alt='';i.src=src;if(cls)i.className=cls;return i};
-const LAY='AB';
-function splitGold(t){const m=t.match(/^[^。；！]*[。；！]/);return m?[m[0],t.slice(m[0].length)]:[t,'']}
 function qResult(){
   const sc={C:0,H:0,R:0,P:0,M:0};qAns.forEach((a,i)=>{const s=SCORE[i+1][a];sc[s[0]]+=2;sc[s[1]]+=1});
   let best='H';[...'HCRPM'].forEach(t=>{if(sc[t]>sc[best])best=t});quizType=best;
-  const T=TYPES[best],X=RES_TXT[best],C=T.color;
   const el=document.createElement('div');el.className='qscr';
-  const bg=resImg('q/res/bg0_'+best+'.webp','qi on');el.appendChild(bg);
-  const ck=resImg('q/res/cake_'+best+'.png','rv-cake');el.appendChild(ck);
-  [[200,200,0],[560,170,1.1],[900,230,.5],[180,520,1.9],[930,500,2.4],[160,880,1.5],[950,850,.9],[200,1380,.3],[560,1420,1.7],[900,1370,2.2],[380,1480,.7]].forEach(([x,y,dl],n)=>{
-    const sp=document.createElement('div');sp.className='rs-spk';sp.style.cssText=`left:${x}px;top:${y}px;animation-delay:${dl}s;animation-duration:${2.6+(n%3)*.5}s`;
-    sp.innerHTML=`<svg viewBox="0 0 40 40" width="100%" height="100%" style="filter:drop-shadow(0 0 6px ${C})"><path d="M20 1C21.6 14 26 18.4 39 20 26 21.6 21.6 26 20 39 18.4 26 14 21.6 1 20 14 18.4 18.4 14 20 1Z" fill="#fff"/></svg>`;el.appendChild(sp)});
-  const tags=a=>a.map(t=>`<span class="tg">${t}</span>`).join('');
-  const secs=[['?','你是什麼樣的人','',T.desc],['✦','你的閃閃發亮',tags(T.tags.slice(2)),X.shine],['!','你偶爾會卡住',tags(T.tags.slice(0,2)),X.stuck]];
-  const gold=LAY!=='A';
-  const inner=([ic,h,tg,txt])=>{const [g,r]=splitGold(txt);
-    return `<h3><span class="ic">${ic}</span>${h}${tg}</h3>`+(gold?`<p class="gold">${g}</p>${r?`<p class="rest">${r}</p>`:''}`:`<p class="body">${txt}</p>`)};
-  const box=document.createElement('div');box.className='lc';box.style.cssText=`--c:${C};--tape:${C}55`;
-  const rib=resImg('q/res/rib_'+best+'.png','rs-rib');
-  if(LAY==='B'){box.style.cssText+=';left:1000px;top:146px;width:1200px;height:1200px';
-    box.innerHTML=`<div class="one">${secs.map((x,n)=>`<div class="sec" style="animation-delay:${.45+n*.25}s">${inner(x)}</div>`).join('')}</div>`;
-    rib.style.cssText='left:1274px;top:86px';}
-  else{box.style.cssText+=';left:1060px;top:160px;width:1090px;height:1160px';
-    secs.forEach((x,n)=>{const c=document.createElement('div');c.className='rcd';c.innerHTML=inner(x);
-      c.style.cssText=`animation-delay:${.45+n*.3}s;transform:rotate(${[-.6,.5,-.4][n]}deg) translateX(${[-14,16,-6][n]}px)`;box.appendChild(c)});
-    rib.style.cssText='left:293px;top:1176px;width:522px';}
-  el.appendChild(box);el.appendChild(rib);
-  const go=document.createElement('div');go.className='rs-btn';go.appendChild(resImg('q/res/btn_'+best+'.png'));
-  const sh=document.createElement('div');sh.className='qshine';go.appendChild(sh);
-  go.onclick=()=>{if(qBusy)return;qBusy=true;qFinish()};el.appendChild(go);
-  const lay=()=>{ // stack the cards with even gaps, shrinking text only if needed
-    let k=LAY==='B'?1:.92;const fitOnce=()=>{box.style.setProperty('--k',k);
-      if(LAY==='B'){const o=box.firstChild;let h=0;[...o.children].forEach(c=>h+=c.offsetHeight);return h+54*k*2+76*k<1150}
-      const cs=[...box.children];let tot=cs.reduce((a,c)=>a+c.offsetHeight,0);const gap=(1160-tot)/2;
-      let y=0;cs.forEach(c=>{c.style.top=y+'px';y+=c.offsetHeight+Math.max(gap,0)});return gap>=46};
-    while(!fitOnce()&&k>.66)k-=.02};
-  qShow(el,[bg,rib,ck],500).then(lay);requestAnimationFrame(lay);
+  const a=qimg('r_'+best+'1');a.classList.add('on');el.appendChild(a);
+  const opened=RES_OPEN.map(r=>{const o=qimg('r_'+best+'2');o.classList.add('qx');o.style.clipPath=`inset(${r[1]}px ${2360-r[2]}px ${1655-r[3]}px ${r[0]}px)`;el.appendChild(o);return o});
+  const sh=qdiv('qshine',RES_BTN);el.appendChild(sh);
+  RES_BARS.forEach((r,k)=>{const h=qdiv('qhit',r);h.onclick=()=>opened[k].classList.toggle('on');el.appendChild(h)});
+  const go=qdiv('qhit',RES_BTN);go.onclick=()=>{if(qBusy)return;qBusy=true;qFinish()};el.appendChild(go);
+  qShow(el,[a,...opened],500);
 }
 function qFinish(){
   QL.animate([{opacity:1},{opacity:0}],{duration:800,easing:'ease-in-out',fill:'forwards'}).finished.then(()=>{
@@ -1705,7 +1599,7 @@ function openQuiz(){ // back to the shop door for the next visitor
   quizDone=false;qAns=[];qBusy=false;QL.getAnimations().forEach(a=>a.cancel());QL.style.opacity=1;QL.hidden=false;qDoor();
 }
 // download every quiz picture in the background so each screen is ready when it is needed
-const QFILES=['q1','q2','q3','q4'].flatMap(q=>['_q','_all','_A','_B','_C','_D','_E'].map(s=>q+s)).concat(['q5_q','q5_lit','q5_all','q5_A','q5_B','q5_C','q5_D','q5_E'],[...'RMPCH'].flatMap(t=>['res/bg0_'+t]));
+const QFILES=['q1','q2','q3','q4'].flatMap(q=>['_q','_all','_A','_B','_C','_D','_E'].map(s=>q+s)).concat(['q5_q','q5_lit','q5_all','q5_A','q5_B','q5_C','q5_D','q5_E'],[...'RMPCH'].flatMap(t=>['r_'+t+'1','r_'+t+'2']));
 if(CAKE_ONLY||RECEIPT)QL.hidden=true;else{openQuiz();QFILES.forEach((f,i)=>setTimeout(()=>{const im=new Image();im.src='q/'+f+'.webp'},i*60))}
 /* ---------- boot ---------- */
 const PRE=['finger.png','mq_0.png','mq_1.png','mq_2.png','mq_3.png','mq_4.png','bg.jpg','table.png','panel.png','btn_reset.png','btn_undo.png','btn_ship.png','storefront_bg.jpg','drip_src.png'];
